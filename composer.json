@@ -1,0 +1,27 @@
+{
+    "name": "arya-ashari/simple-php-mvc-setup",
+    "type": "project",
+    "description": "Simple PHP MVC Setup For Small Project",
+    "authors": [
+        {
+            "name": "Arya Ashari",
+            "email": "aryaashari100@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Auth\\Api\\" : "app"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Auth\\Api\\" : "test"
+        }
+    },
+    "require": {
+        "php" : "^8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    }
+}
