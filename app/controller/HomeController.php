@@ -1,8 +1,8 @@
 <?php
 
-namespace Auth\Api\Controller;
+namespace Simple\Php\Mvc\Controller;
 
-use Auth\Api\App\View;
+use Simple\Php\Mvc\App\View;
 
 class HomeController {
 

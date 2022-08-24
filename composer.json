@@ -10,12 +10,12 @@
     ],
     "autoload": {
         "psr-4": {
-            "Auth\\Api\\" : "app"
+            "Simple\\Php\\Mvc\\" : "app"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Auth\\Api\\" : "test"
+            "Simple\\Php\\Mvc\\" : "test"
         }
     },
     "require": {

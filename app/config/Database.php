@@ -1,6 +1,6 @@
 <?php
 
-namespace Auth\Api\Config;
+namespace Simple\Php\Mvc\Config;
 
 class Database {
 

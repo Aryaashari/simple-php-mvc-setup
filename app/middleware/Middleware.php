@@ -1,6 +1,6 @@
 <?php
 
-namespace Auth\Api\Middleware;
+namespace Simple\Php\Mvc\Middleware;
 
 interface Middleware {
 

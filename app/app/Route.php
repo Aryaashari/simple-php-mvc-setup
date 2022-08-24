@@ -1,6 +1,6 @@
 <?php
 
-namespace Auth\Api\App;
+namespace Simple\Php\Mvc\App;
 
 class Route {
 
