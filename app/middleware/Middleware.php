@@ -1,6 +1,6 @@
 <?php
 
-namespace Simple\Php\Mvc\Middleware;
+namespace Emoney\Middleware;
 
 interface Middleware {
 

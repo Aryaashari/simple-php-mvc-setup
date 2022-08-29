@@ -1,6 +1,6 @@
 <?php
 
-namespace Simple\Php\Mvc\Config;
+namespace Emoney\Config;
 
 class Database {
 

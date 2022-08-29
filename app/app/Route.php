@@ -1,6 +1,6 @@
 <?php
 
-namespace Simple\Php\Mvc\App;
+namespace Emoney\App;
 
 class Route {
 

@@ -1,7 +1,7 @@
 {
-    "name": "arya-ashari/simple-php-mvc-setup",
+    "name": "arya-ashari/emoney-app",
     "type": "project",
-    "description": "Simple PHP MVC Setup For Small Project",
+    "description": "Simple EMoney App System",
     "authors": [
         {
             "name": "Arya Ashari",
@@ -10,12 +10,12 @@
     ],
     "autoload": {
         "psr-4": {
-            "Simple\\Php\\Mvc\\" : "app"
+            "EMoney\\" : "app"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Simple\\Php\\Mvc\\" : "test"
+            "EMoney\\" : "test"
         }
     },
     "require": {

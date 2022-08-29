@@ -1,8 +1,8 @@
 <?php
 
-namespace Simple\Php\Mvc\Controller;
+namespace Emoney\Controller;
 
-use Simple\Php\Mvc\App\View;
+use Emoney\App\View;
 
 class HomeController {
 

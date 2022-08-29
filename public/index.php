@@ -2,8 +2,8 @@
 
 require_once __DIR__."/../vendor/autoload.php";
 
-use Simple\Php\Mvc\App\Route;
-use Simple\Php\Mvc\Controller\HomeController;
+use Emoney\App\Route;
+use Emoney\Controller\HomeController;
 
 Route::get("/", HomeController::class, "index", []);
 Route::run();
