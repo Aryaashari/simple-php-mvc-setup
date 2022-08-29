@@ -1,6 +1,6 @@
 <?php
 
-namespace Emoney\Config;
+namespace Ewallet\Config;
 
 class Database {
 

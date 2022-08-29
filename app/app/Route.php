@@ -1,6 +1,6 @@
 <?php
 
-namespace Emoney\App;
+namespace Ewallet\App;
 
 class Route {
 

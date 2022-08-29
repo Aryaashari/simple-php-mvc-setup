@@ -10,12 +10,12 @@
     ],
     "autoload": {
         "psr-4": {
-            "EMoney\\" : "app"
+            "Ewallet\\" : "app"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "EMoney\\" : "test"
+            "Ewallet\\" : "test"
         }
     },
     "require": {

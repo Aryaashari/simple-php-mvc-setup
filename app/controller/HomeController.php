@@ -2,7 +2,7 @@
 
 namespace Emoney\Controller;
 
-use Emoney\App\View;
+use Ewallet\App\View;
 
 class HomeController {
 

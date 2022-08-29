@@ -1,6 +1,6 @@
 <?php
 
-namespace Emoney\Middleware;
+namespace Ewallet\Middleware;
 
 interface Middleware {
 
