@@ -1,6 +1,6 @@
 <?php
 
-namespace Emoney\Controller;
+namespace Ewallet\Controller;
 
 use Ewallet\App\View;
 
