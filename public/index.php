@@ -11,4 +11,7 @@ Route::get("/", HomeController::class, "index", []);
 // Auth
 Route::get("/users/register", AuthController::class, "registerView", []);
 Route::get("/users/login", AuthController::class, "loginView", []);
+Route::get("/password/change", AuthController::class, "changePasswordView", []);
+
+
 Route::run();
