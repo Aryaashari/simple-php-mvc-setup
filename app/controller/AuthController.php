@@ -20,4 +20,8 @@ class AuthController {
         View::render('/../view/auth/change-password.php');
     }
 
+    public function forgotPasswordView() : void {
+        View::render('/../view/auth/forgot-password.php');
+    }
+
 }
