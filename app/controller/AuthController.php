@@ -24,4 +24,8 @@ class AuthController {
         View::render('/../view/auth/forgot-password.php');
     }
 
+    public function resetPasswordView() : void {
+        View::render('/../view/auth/reset-password.php');
+    }
+
 }

@@ -13,6 +13,7 @@ Route::get("/users/register", AuthController::class, "registerView", []);
 Route::get("/users/login", AuthController::class, "loginView", []);
 Route::get("/password/change", AuthController::class, "changePasswordView", []);
 Route::get("/password/forgot", AuthController::class, "forgotPasswordView", []);
+Route::get("/password/reset", AuthController::class, "resetPasswordView", []);
 
 
 Route::run();
