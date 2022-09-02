@@ -97,11 +97,11 @@
                 <p class="balance-text fw-normal fs-4 lh-1">Balance</p>
                 <p class="balance-number fw-bold fs-2 lh-1">IDR 5.000.000</p>
                 <div class="features d-flex justify-content-center">
-                    <div class="topup" onclick="">
+                    <div class="topup" data-bs-toggle="modal" data-bs-target="#topupModal">
                         <img src="assets/img/topup.png" class="icon" alt="topup-icon">
                         <p class="fw-bold fs-6">Top Up</p>
                     </div>
-                    <div class="transfer" onclick="">
+                    <div class="transfer" data-bs-toggle="modal" data-bs-target="#transferModal">
                         <img src="assets/img/transfer.png" class="icon" alt="topup-icon">
                         <p class="fw-bold fs-6">Transfer</p>
                     </div>
@@ -141,7 +141,119 @@
 
     </div>
 
+
+
+    <!-- Modal Top Up -->
+    <div class="modal fade" id="topupModal" tabindex="-1" aria-labelledby="topupModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="topupModalLabel">Top Up</h5>
+                    <button type="button" class="btn-close" onclick="resetModalData()" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="#" id="formTopup">
+                    <div class="modal-body">
+
+                        <input type="text" name="nominal" class="form-control" id="topupNominal" placeholder="Min IDR 10.000">
+
+                        <input type="text" name="pin" class="form-control d-none" id="pinTopup" placeholder="Enter your PIN">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="resetModalData()" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="btnTopup" onclick="pinSectionTopup()">Next</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal Transfer -->
+    <div class="modal fade" id="transferModal" tabindex="-1" aria-labelledby="transferModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="transferModalLabel">Transfer</h5>
+                    <button type="button" class="btn-close" onclick="resetModalData()" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="#" id="formTransfer">
+
+                        <input type="text" name="accountNumber" class="form-control mb-3" id="accountNumber" placeholder="Account Number">
+                        <input type="text" name="nominal" class="form-control" id="transferNominal" placeholder="Min IDR 10.000">
+
+                        <input type="text" name="pin" class="form-control d-none" id="pinTransfer" placeholder="Enter your PIN">
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="resetModalData()" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="btnTransfer" onclick="pinSectionTransfer()">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-</body>
+    
+    <script>
+
+        let pinTopup = document.getElementById('pinTopup'); 
+        let pinTransfer = document.getElementById('pinTransfer'); 
+
+        let topupNominal = document.getElementById('topupNominal');
+        let transferNominal = document.getElementById('transferNominal');
+
+        let accountNumber = document.getElementById('accountNumber');
+
+        let btnTransfer = document.getElementById('btnTransfer');
+        let btnTopup = document.getElementById('btnTopup');
+
+        function pinSectionTransfer() {
+            pinTransfer.classList.remove('d-none');
+            transferNominal.classList.add('d-none');
+            accountNumber.classList.add('d-none');
+
+            btnTransfer.innerText = "Transfer";
+            btnTransfer.removeAttribute('onclick');
+            btnTransfer.setAttribute('type', 'submit');
+        }
+
+        function pinSectionTopup() {
+            pinTopup.classList.remove('d-none');
+            topupNominal.classList.add('d-none');
+
+            btnTopup.innerText = "Top Up";
+            btnTopup.removeAttribute('onclick');
+            btnTopup.setAttribute('type', 'submit');
+        }
+
+        function resetModalData() {
+            pinTopup.classList.add('d-none');
+            pinTopup.value = "";
+
+            pinTransfer.classList.add('d-none');
+            pinTransfer.value = "";
+
+            topupNominal.classList.remove('d-none');
+            topupNominal.value = "";
+
+            transferNominal.classList.remove('d-none');
+            transferNominal.value = "";
+
+            accountNumber.classList.remove('d-none');
+            accountNumber.value = "";
+
+            btnTransfer.innerText = "Next";
+            btnTransfer.setAttribute('onclick', 'pinSectionTransfer()');
+            btnTransfer.setAttribute('type', 'button');
+
+            btnTopup.innerText = "Next";
+            btnTopup.setAttribute('onclick', 'pinSectionTopup()');
+            btnTopup.setAttribute('type', 'button');
+        }
+
+    </script>
 </html>
