@@ -88,7 +88,7 @@
             <p class="name text-center fw-bold fs-3 text-white  lh-1">Arya Dul Fitra Ashari</p>
             <p class="accountNumber text-center text-white lh-1">12345678</p>
             <div class="buttonGroup mx-auto my-3">
-                <button class="btn btn-light">Profile</button>
+                <a href="/users/profile" class="btn btn-light">Profile</a>
                 <button class="btn btn-warning">Setting</button>
                 <button class="btn btn-danger">Logout</button>
             </div>

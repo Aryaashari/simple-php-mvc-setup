@@ -5,6 +5,7 @@ require_once __DIR__."/../vendor/autoload.php";
 use Ewallet\App\Route;
 use Ewallet\Controller\HomeController;
 use Ewallet\Controller\AuthController;
+use Ewallet\Controller\UserController;
 
 Route::get("/", HomeController::class, "index", []);
 
