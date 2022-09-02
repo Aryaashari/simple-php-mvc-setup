@@ -11,7 +11,7 @@
     <style>
         .card {
             background-color: #7FBCD2;
-            margin: 100px auto;
+            margin: 70px auto;
         }
 
         @media (min-width: 767px) {
@@ -48,8 +48,9 @@
                         <label for="confirmNewPassword" class="form-label">Confirm New Password</label>
                         <input type="password" class="form-control" name="confirmNewPassword" id="confirmNewPassword">
                     </div>
-
+                    
                     <button class="mb-3 btn btn-primary w-100" type="submit">Change</button>
+                    <button class="mb-3 btn btn-danger w-100">Back</button>
                     
                 </form>
             </div>
