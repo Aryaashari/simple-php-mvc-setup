@@ -15,5 +15,8 @@ Route::get("/password/change", AuthController::class, "changePasswordView", []);
 Route::get("/password/forgot", AuthController::class, "forgotPasswordView", []);
 Route::get("/password/reset", AuthController::class, "resetPasswordView", []);
 
+// User
+Route::get('/users/profile', UserController::class, "profile", []);
+
 
 Route::run();
