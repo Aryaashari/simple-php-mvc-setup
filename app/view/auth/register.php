@@ -32,34 +32,53 @@
                 </div>
                 <form action="#">
 
-                    <div class="mb-3">
-                        <label for="neme" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="neme">
-                    </div>
+                    <div id="profileSection">
 
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email">
-                    </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" name="name" id="name">
+                        </div>
 
-                    <div class="mb-3">
-                        <label for="username" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="username">
-                    </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" name="email" id="email">
+                        </div>
 
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password">
-                    </div>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" name="username" id="username">
+                        </div>
 
-                    <div class="mb-3">
-                        <label for="confirm-password" class="form-label">Confirm Password</label>
-                        <input type="password" class="form-control" id="confirm-password">
-                    </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" name="password" id="password">
+                        </div>
 
-                    <button class="mb-3 btn btn-primary w-100">Next</button>
+                        <div class="mb-3">
+                            <label for="confirm-password" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" name="confirmPassword" id="confirm-password">
+                        </div>
+
+                        <button class="mb-3 btn btn-primary w-100" onclick="pinSectionAction()">Next</button>
+                        
+                        <p class="text-center">Already have an account? <a href="/users/login" class="mb-3">Login</a></p>
+
+                    </div>
                     
-                    <p class="text-center">Already have an account? <a href="/users/login" class="mb-3">Login</a></p>
+
+                    <div id="pinSection" class="d-none">
+
+                        <div class="mb-3">
+                            <label for="pin" class="form-label">PIN</label>
+                            <input type="text" name="pin" class="form-control" id="pin">
+                        </div>
+    
+                        <button class="mb-3 btn btn-primary w-100" type="submit">Register</button>
+                        <button class="mb-3 btn btn-danger w-100" type="button" onclick="profileSectionAction()">Back</button>
+                        
+                        <p class="text-center">Already have an account? <a href="/users/login" class="mb-3">Login</a></p>
+
+                    </div>
                     
                 </form>
             </div>
@@ -68,5 +87,22 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <script>
+        
+        let profileSection = document.getElementById('profileSection');
+        let pinSection = document.getElementById('pinSection');
+
+        function pinSectionAction() {
+            profileSection.classList.add('d-none');
+            pinSection.classList.remove('d-none');
+        }
+
+        function profileSectionAction() {
+            profileSection.classList.remove('d-none');
+            pinSection.classList.add('d-none');
+        }
+
+    </script>
 </body>
 </html>
