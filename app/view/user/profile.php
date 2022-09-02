@@ -66,7 +66,7 @@
                 <form action="#">
 
                     <div class="box-avatar">
-                        <img src="../assets/img/arya.jpg" class="img-avatar" alt="profile-photo">
+                        <img src="../assets/img/arya.jpg" id="imgAvatar" class="img-avatar" alt="profile-photo">
                         <label for="photoProfile" class="btn">
                             <img src="../assets/img/pen.png" class="pen-icon" alt="pen-icon">
                         </label>
@@ -88,7 +88,7 @@
                         <input type="text" class="form-control" name="username" id="username" value="aryaashari">
                     </div>
 
-                    <button class="mb-3 btn btn-primary w-100" id="saveBtn" disabled>Save</button>
+                    <button class="mb-3 btn btn-primary w-100" id="saveBtn" type="submit" disabled>Save</button>
                     <a href="/" class="mb-3 btn btn-danger w-100">Back</a>
                     
                 </form>
@@ -111,8 +111,15 @@
 
         let saveBtn = document.getElementById('saveBtn');
 
-        photoProfile.addEventListener('change', function() {
+        let imgAvatar = document.getElementById('imgAvatar');
+
+        photoProfile.addEventListener('change', function(e) {
             saveBtn.removeAttribute('disabled');
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                imgAvatar.setAttribute('src', e.target.result);
+            }
+            reader.readAsDataURL(photoProfile.files[0]);
         });
 
         name.addEventListener('keyup', function() {
