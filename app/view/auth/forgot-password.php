@@ -40,7 +40,7 @@
                     </div>
                     
                     <button class="mb-3 btn btn-primary w-100" type="submit">Next</button>
-                    <button class="mb-3 btn btn-danger w-100">Back</button>
+                    <a href="/" class="mb-3 btn btn-danger w-100">Back</a>
                     
                 </form>
             </div>

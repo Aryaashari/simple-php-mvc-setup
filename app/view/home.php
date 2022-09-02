@@ -89,7 +89,7 @@
             <p class="accountNumber text-center text-white lh-1">12345678</p>
             <div class="buttonGroup mx-auto my-3">
                 <a href="/users/profile" class="btn btn-light">Profile</a>
-                <button class="btn btn-warning">Setting</button>
+                <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#settingModal">Settings</button>
                 <button class="btn btn-danger">Logout</button>
             </div>
 
@@ -177,19 +177,39 @@
                     <h5 class="modal-title" id="transferModalLabel">Transfer</h5>
                     <button type="button" class="btn-close" onclick="resetModalData()" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <form action="#" id="formTransfer">
+                <form action="#" id="formTransfer">
+                    <div class="modal-body">
 
                         <input type="text" name="accountNumber" class="form-control mb-3" id="accountNumber" placeholder="Account Number">
                         <input type="text" name="nominal" class="form-control" id="transferNominal" placeholder="Min IDR 10.000">
 
                         <input type="text" name="pin" class="form-control d-none" id="pinTransfer" placeholder="Enter your PIN">
 
-                    </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="resetModalData()" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="btnTransfer" onclick="pinSectionTransfer()">Next</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Setting -->
+    <div class="modal fade" id="settingModal" tabindex="-1" aria-labelledby="settingModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="settingModalLabel">Settings</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <a href="/password/change" class="btn btn-primary w-100 mb-3">Change Password</a>
+                    <a href="/password/forgot" class="btn btn-primary w-100 mb-3">Forgot Password</a>
+                    <a href="#" class="btn btn-primary w-100">Change PIN Number</a>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onclick="resetModalData()" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="btnTransfer" onclick="pinSectionTransfer()">Next</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
