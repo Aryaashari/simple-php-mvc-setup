@@ -206,7 +206,7 @@
                 <div class="modal-body">
                     <a href="/password/change" class="btn btn-primary w-100 mb-3">Change Password</a>
                     <a href="/password/forgot" class="btn btn-primary w-100 mb-3">Forgot Password</a>
-                    <a href="#" class="btn btn-primary w-100">Change PIN Number</a>
+                    <a href="/users/wallet/pin/change" class="btn btn-primary w-100">Change PIN Number</a>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

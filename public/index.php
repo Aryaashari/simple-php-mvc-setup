@@ -6,6 +6,7 @@ use Ewallet\App\Route;
 use Ewallet\Controller\HomeController;
 use Ewallet\Controller\AuthController;
 use Ewallet\Controller\UserController;
+use Ewallet\Controller\WalletController;
 
 Route::get("/", HomeController::class, "index", []);
 
@@ -18,6 +19,9 @@ Route::get("/password/reset", AuthController::class, "resetPasswordView", []);
 
 // User
 Route::get('/users/profile', UserController::class, "profile", []);
+
+// Wallet
+Route::get('/users/wallet/pin/change', WalletController::class, "changePinView", []);
 
 
 Route::run();
