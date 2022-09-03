@@ -154,14 +154,14 @@
                 <form action="#" id="formTopup">
                     <div class="modal-body">
 
-                        <input type="text" name="nominal" class="form-control" id="topupNominal" placeholder="Min IDR 10.000">
+                        <input type="text" name="nominal" class="form-control" id="topupNominal" placeholder="Min IDR 10.000" autocomplete="off">
 
-                        <input type="text" name="pin" class="form-control d-none" id="pinTopup" placeholder="Enter your PIN">
+                        <input type="text" name="pin" class="form-control d-none" id="pinTopup" placeholder="Enter your PIN" autocomplete="off">
 
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" onclick="resetModalData()" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary" id="btnTopup" onclick="pinSectionTopup()">Next</button>
+                        <button type="button" class="btn btn-primary" id="btnTopup" disabled onclick="pinSectionTopup()">Next</button>
                     </div>
                 </form>
             </div>
@@ -180,15 +180,15 @@
                 <form action="#" id="formTransfer">
                     <div class="modal-body">
 
-                        <input type="text" name="accountNumber" class="form-control mb-3" id="accountNumber" placeholder="Account Number">
-                        <input type="text" name="nominal" class="form-control" id="transferNominal" placeholder="Min IDR 10.000">
+                        <input type="text" name="accountNumber" class="form-control mb-3" id="accountNumber" placeholder="Account Number"autocomplete="off">
+                        <input type="text" name="nominal" class="form-control" id="transferNominal" placeholder="Min IDR 10.000" autocomplete="off">
 
-                        <input type="text" name="pin" class="form-control d-none" id="pinTransfer" placeholder="Enter your PIN">
+                        <input type="text" name="pin" class="form-control d-none" id="pinTransfer" placeholder="Enter your PIN" autocomplete="off">
 
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" onclick="resetModalData()" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary" id="btnTransfer" onclick="pinSectionTransfer()">Next</button>
+                        <button type="button" class="btn btn-primary" id="btnTransfer" disabled onclick="pinSectionTransfer()">Next</button>
                     </div>
                 </form>
             </div>
@@ -231,6 +231,27 @@
         let btnTransfer = document.getElementById('btnTransfer');
         let btnTopup = document.getElementById('btnTopup');
 
+        pinTopup.addEventListener('keyup', function() {
+            btnTopup.removeAttribute('disabled');
+        });
+
+        topupNominal.addEventListener('keyup', function() {
+            btnTopup.removeAttribute('disabled');
+        });
+
+
+        pinTransfer.addEventListener('keyup', function() {
+            btnTransfer.removeAttribute('disabled');
+        });
+
+        accountNumber.addEventListener('keyup', function() {
+            btnTransfer.removeAttribute('disabled');
+        });
+
+        transferNominal.addEventListener('keyup', function() {
+            btnTransfer.removeAttribute('disabled');
+        });
+
         function pinSectionTransfer() {
             pinTransfer.classList.remove('d-none');
             transferNominal.classList.add('d-none');
@@ -239,6 +260,8 @@
             btnTransfer.innerText = "Transfer";
             btnTransfer.removeAttribute('onclick');
             btnTransfer.setAttribute('type', 'submit');
+            btnTransfer.setAttribute('disabled', true);
+            
         }
 
         function pinSectionTopup() {
@@ -248,6 +271,7 @@
             btnTopup.innerText = "Top Up";
             btnTopup.removeAttribute('onclick');
             btnTopup.setAttribute('type', 'submit');
+            btnTopup.setAttribute('disabled', true);
         }
 
         function resetModalData() {
@@ -269,10 +293,12 @@
             btnTransfer.innerText = "Next";
             btnTransfer.setAttribute('onclick', 'pinSectionTransfer()');
             btnTransfer.setAttribute('type', 'button');
+            btnTransfer.setAttribute('disabled', true);
 
             btnTopup.innerText = "Next";
             btnTopup.setAttribute('onclick', 'pinSectionTopup()');
             btnTopup.setAttribute('type', 'button');
+            btnTopup.setAttribute('disabled', true);
         }
 
     </script>
