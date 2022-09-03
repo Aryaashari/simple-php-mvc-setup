@@ -35,28 +35,28 @@
                     <div id="profileSection">
 
                         <div class="mb-3">
-                            <label for="name" class="form-label">Name</label>
-                            <input type="text" class="form-control" name="name" id="name">
+                            <label class="form-label">Name</label>
+                            <input type="text" class="form-control" name="name" id="nameForm">
                         </div>
 
                         <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" name="email" id="email">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" name="email" id="emailForm">
                         </div>
 
                         <div class="mb-3">
-                            <label for="username" class="form-label">Username</label>
-                            <input type="text" class="form-control" name="username" id="username">
+                            <label class="form-label">Username</label>
+                            <input type="text" class="form-control" name="username" id="usernameForm">
                         </div>
 
                         <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" name="password" id="password">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-control" name="password" id="passwordForm">
                         </div>
 
                         <div class="mb-3">
-                            <label for="confirm-password" class="form-label">Confirm Password</label>
-                            <input type="password" class="form-control" name="confirmPassword" id="confirm-password">
+                            <label class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" name="confirmPassword" id="confirmPasswordForm">
                         </div>
 
                         <button class="mb-3 btn btn-primary w-100" type="button" onclick="pinSectionAction()">Next</button>
@@ -69,8 +69,8 @@
                     <div id="pinSection" class="d-none">
 
                         <div class="mb-3">
-                            <label for="pin" class="form-label">PIN</label>
-                            <input type="text" name="pin" class="form-control" id="pin">
+                            <label class="form-label">PIN</label>
+                            <input type="text" name="pin" class="form-control" id="pinForm">
                         </div>
     
                         <button class="mb-3 btn btn-primary w-100" id="registerBtn" type="submit">Register</button>
@@ -87,6 +87,8 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <script src="../assets/js/validation/register-validation.js"></script>
 
     <script>
         
