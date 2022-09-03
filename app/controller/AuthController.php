@@ -11,6 +11,10 @@ class AuthController {
         View::render('/../view/auth/register.php');
     }
 
+    public function register() : void {
+        echo "OK";
+    }
+
 
     public function loginView() : void {
         View::render('/../view/auth/login.php');

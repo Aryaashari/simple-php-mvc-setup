@@ -30,7 +30,7 @@
                 <div class="card-title text-center fw-bold">
                     <h1 class="fs-2">REGISTER</h1>
                 </div>
-                <form action="#">
+                <form action="/users/register" method="POST">
 
                     <div id="profileSection">
 
@@ -59,7 +59,7 @@
                             <input type="password" class="form-control" name="confirmPassword" id="confirm-password">
                         </div>
 
-                        <button class="mb-3 btn btn-primary w-100" onclick="pinSectionAction()">Next</button>
+                        <button class="mb-3 btn btn-primary w-100" type="button" onclick="pinSectionAction()">Next</button>
                         
                         <p class="text-center">Already have an account? <a href="/users/login" class="mb-3">Login</a></p>
 
@@ -73,7 +73,7 @@
                             <input type="text" name="pin" class="form-control" id="pin">
                         </div>
     
-                        <button class="mb-3 btn btn-primary w-100" type="submit">Register</button>
+                        <button class="mb-3 btn btn-primary w-100" id="registerBtn" type="submit">Register</button>
                         <button class="mb-3 btn btn-danger w-100" type="button" onclick="profileSectionAction()">Back</button>
                         
                         <p class="text-center">Already have an account? <a href="/users/login" class="mb-3">Login</a></p>
