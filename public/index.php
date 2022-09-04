@@ -7,6 +7,7 @@ use Ewallet\Controller\HomeController;
 use Ewallet\Controller\AuthController;
 use Ewallet\Controller\UserController;
 use Ewallet\Controller\WalletController;
+use Ewallet\Helper\FlashMessage;
 
 Route::get("/", HomeController::class, "index", []);
 

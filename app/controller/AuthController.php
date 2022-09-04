@@ -3,6 +3,7 @@
 namespace Ewallet\Controller;
 
 use Ewallet\App\View;
+use Ewallet\Helper\FlashMessage;
 
 class AuthController {
 
