@@ -4,9 +4,15 @@ namespace Ewallet\Service;
 
 use Ewallet\Exception\ValidationException;
 use Ewallet\Model\Auth\RegisterRequest;
+use Ewallet\Repository\UserRepository;
 
 class AuthService {
 
+    private UserRepository $userRepo;
+    public function __construct()
+    {
+        $this->userRepo = new UserRepository;
+    }
 
     public function register(RegisterRequest $request) {
 
@@ -26,6 +32,8 @@ class AuthService {
             throw new ValidationException("Email is required!");
         } else if(!preg_match('/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/', $request->email)) {
             throw new ValidationException("Email must be type of email!");
+        } else if($this->userRepo->findByEmail($request->email) != null) {
+            throw new ValidationException("Email is already exist!");
         }
         
         if($request->username == "") {
@@ -36,6 +44,8 @@ class AuthService {
             throw new ValidationException("Username min 3 characters!");
         } else if(strlen($request->username) > 10) {
             throw new ValidationException("Username max 10 characters!");
+        } else if($this->userRepo->findByUsername($request->username) != null) {
+            throw new ValidationException("Username is already exist!");
         }
 
 
