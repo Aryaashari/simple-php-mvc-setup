@@ -14,7 +14,7 @@ class Database {
                     "type" => "mysql",
                     "host" => "localhost",
                     "port" => "3306",
-                    "dbname" => "e_wallet",
+                    "dbname" => "e_wallet_test",
                     "username" => "root",
                     "password" => ""
                 ],
@@ -22,7 +22,7 @@ class Database {
                     "type" => "mysql",
                     "host" => "localhost",
                     "port" => "3306",
-                    "dbname" => "e_wallet_test",
+                    "dbname" => "e_wallet",
                     "username" => "root",
                     "password" => ""
                 ]

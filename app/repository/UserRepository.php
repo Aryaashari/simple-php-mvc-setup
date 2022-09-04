@@ -14,6 +14,17 @@ class UserRepository {
         $this->db = Database::getConnection();
     }
 
+    public function findByEmail(string $email) : ?User {
+        $stmt = $this->db->prepare('SELECT * FROM users WHERE email=?');
+        $stmt->execute([$email]);
+
+        if($user = $stmt->fetch()) {
+            return new User($user["id"], $user["name"], $user["email"], $user["username"], $user["password"], $user["profile_photo"], $user["email_verified"], $user["email_verified_time"], $user["create_time"], $user["update_time"]);
+        }
+
+        return null;
+    }
+
     public function create(User $user) : User {
 
         try {
@@ -32,6 +43,15 @@ class UserRepository {
             throw $e;
         }
 
+    }
+
+
+    public function deleteAll() : void {
+        try {
+            $stmt = $this->db->query('DELETE FROM users');
+        } catch(\Exception $e) {
+            throw $e;
+        }
     }
 
 }
