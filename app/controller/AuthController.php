@@ -13,12 +13,12 @@ class AuthController {
     }
 
     public function register() : void {
-        $name = htmlspecialchars(trim($_POST["name"]));
-        $email = htmlspecialchars(trim($_POST["email"]));
-        $username = htmlspecialchars(trim($_POST["username"]));
-        $password = htmlspecialchars(trim($_POST["password"]));
-        $confirmPassword = htmlspecialchars(trim($_POST["confirmPassword"]));
-        $pin = htmlspecialchars(trim($_POST["pin"]));
+        $name = htmlspecialchars(trim($_POST["name"] ?? ""));
+        $email = htmlspecialchars(trim($_POST["email"] ?? ""));
+        $username = htmlspecialchars(trim($_POST["username"] ?? ""));
+        $password = htmlspecialchars(trim($_POST["password"] ?? ""));
+        $confirmPassword = htmlspecialchars(trim($_POST["confirmPassword"] ?? ""));
+        $pin = htmlspecialchars(trim($_POST["pin"] ?? ""));
 
         $request = new RegisterRequest($name, $email, $username, $password, $confirmPassword, $pin);
 
