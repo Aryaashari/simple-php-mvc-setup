@@ -25,6 +25,18 @@ class UserRepository {
         return null;
     }
 
+    public function findByUsername(string $username) : ?User {
+        $stmt = $this->db->prepare('SELECT * FROM users WHERE username=?');
+        $stmt->execute([$username]);
+
+        if($user = $stmt->fetch()) {
+            return new User($user["id"], $user["name"], $user["email"], $user["username"], $user["password"], $user["profile_photo"], $user["email_verified"], $user["email_verified_time"], $user["create_time"], $user["update_time"]);
+        }
+
+        return null;
+    }
+    
+
     public function create(User $user) : User {
 
         try {

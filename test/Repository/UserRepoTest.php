@@ -43,5 +43,20 @@ class UserRepoTest extends TestCase {
         $this->assertNull($user);
     }
 
+    public function testFindByUsernameFound() : void {
+        
+        $this->userRepo->create(new User(null, "Arya", "aryaashari100@gmail.com", "aryaashari", "12345678", "arya.jpg", false, null));
+        $user = $this->userRepo->findByUsername('aryaashari');
+        var_dump($user);
+        $this->assertIsObject($user);
+    }
+
+    public function testFindByUsernameNotFound() : void {
+        
+        $user = $this->userRepo->findByUsername('asdasd');
+        var_dump($user);
+        $this->assertNull($user);
+    }
+
 
 }
