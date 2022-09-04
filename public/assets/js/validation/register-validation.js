@@ -4,123 +4,226 @@ const usernameForm = document.getElementById('usernameForm');
 const passwordForm = document.getElementById('passwordForm');
 const confirmPasswordForm = document.getElementById('confirmPasswordForm');
 const pinForm = document.getElementById('pinForm');
+const btnNext = document.getElementById('btnNext');
+const btnBack = document.getElementById('btnBack');
+const registerBtn = document.getElementById('registerBtn');
 
-nameForm.addEventListener('blur', function () { 
-    if (nameForm.nextSibling != null) {
-        nameForm.nextSibling.remove();
+let profileSectionIsError = true;
+let pinSectionIsError = true;
+
+function nameFormValidation(form) {
+    if (form.nextSibling != null) {
+        form.nextSibling.remove();
     }
 
-    if (nameForm.value === '' || nameForm.value === null) {
-        nameForm.classList.add('is-invalid');
-        nameForm.insertAdjacentHTML("afterend", `<div class="invalid-feedback">Name is required!</div>`);
-    } else if(nameForm.value.length < 3) {
-        nameForm.classList.add('is-invalid');
-        nameForm.insertAdjacentHTML("afterend", `<div class="invalid-feedback">Min 3 characters!</div>`);
-    } else if(nameForm.value.length > 30) {
-        nameForm.classList.add('is-invalid');
-        nameForm.insertAdjacentHTML("afterend", `<div class="invalid-feedback">Max 30 characters!</div>`);
-    } else if(!nameForm.value.match(/^[a-zA-Z\s]*$/)) {
-        nameForm.classList.add('is-invalid');
-        nameForm.insertAdjacentHTML("afterend", `<div class="invalid-feedback">Name must be alphabet or space!</div>`);
+    profileSectionIsError = true;
+    if (form.value === '' || form.value === null) {
+        form.classList.add('is-invalid');
+        form.insertAdjacentHTML("afterend", `<div class="invalid-feedback">Name is required!</div>`);
+    } else if(form.value.length < 3) {
+        form.classList.add('is-invalid');
+        form.insertAdjacentHTML("afterend", `<div class="invalid-feedback">Min 3 characters!</div>`);
+    } else if(form.value.length > 30) {
+        form.classList.add('is-invalid');
+        form.insertAdjacentHTML("afterend", `<div class="invalid-feedback">Max 30 characters!</div>`);
+    } else if(!form.value.match(/^[a-zA-Z\s]*$/)) {
+        form.classList.add('is-invalid');
+        form.insertAdjacentHTML("afterend", `<div class="invalid-feedback">Name must be alphabet or space!</div>`);
     } else {
-        nameForm.classList.remove('is-invalid');
-        nameForm.classList.add('is-valid');
+        form.classList.remove('is-invalid');
+        form.classList.add('is-valid');
+        profileSectionIsError = false;
     }
+}
 
+nameForm.addEventListener('keyup', function () { 
+    
+    nameFormValidation(nameForm);
 
  });
 
 
-emailForm.addEventListener('keyup', function () { 
-    if (emailForm.nextSibling != null) {
-        emailForm.nextSibling.remove();
-    }
 
-    if (emailForm.value === '' || emailForm.value === null) {
-        emailForm.classList.add('is-invalid');
-        emailForm.insertAdjacentHTML("afterend", `<div class="invalid-feedback">Email is required!</div>`);
-    } else if (!emailForm.value.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
-        emailForm.classList.add('is-invalid');
-        emailForm.insertAdjacentHTML("afterend", `<div class="invalid-feedback">Email must be tpye of email!</div>`);
+
+function emailFormValidation(form) {
+    if (form.nextSibling != null) {
+        form.nextSibling.remove();
+    }
+    profileSectionIsError = true;
+    if (form.value === '' || form.value === null) {
+        form.classList.add('is-invalid');
+        form.insertAdjacentHTML("afterend", `<div class="invalid-feedback">Email is required!</div>`);
+    } else if (!form.value.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
+        form.classList.add('is-invalid');
+        form.insertAdjacentHTML("afterend", `<div class="invalid-feedback">Email must be tpye of email!</div>`);
     } else {
-        emailForm.classList.remove('is-invalid');
-        emailForm.classList.add('is-valid');
+        form.classList.remove('is-invalid');
+        form.classList.add('is-valid');
+        profileSectionIsError = false;
     }
+}
 
+emailForm.addEventListener('keyup', function () { 
+    emailFormValidation(emailForm);
 });
 
+
+
+function usernameFormValidation(form) {
+    if (form.nextSibling != null) {
+        form.nextSibling.remove();
+    }
+
+    profileSectionIsError = true;
+
+    if (form.value === '' || form.value === null) {
+        form.classList.add('is-invalid');
+        form.insertAdjacentHTML("afterend", `<div class="invalid-feedback">Username is required!</div>`);
+    } else if(!form.value.match(/^[a-zA-Z0-9_]*$/)) {
+        form.classList.add('is-invalid');
+        form.insertAdjacentHTML("afterend", `<div class="invalid-feedback">Please enter a valid username(a-z, A-Z, _)!</div>`);
+    } else if(form.value.length < 3) {
+        form.classList.add('is-invalid');
+        form.insertAdjacentHTML("afterend", `<div class="invalid-feedback">Min 3 character!</div>`);
+    } else if(form.value.length > 10) {
+        form.classList.add('is-invalid');
+        form.insertAdjacentHTML("afterend", `<div class="invalid-feedback">Max 10 character!</div>`);
+    } else {
+        form.classList.remove('is-invalid');
+        form.classList.add('is-valid');
+        profileSectionIsError = false;
+    }
+}
 
 usernameForm.addEventListener('keyup', function () { 
-    if (usernameForm.nextSibling != null) {
-        usernameForm.nextSibling.remove();
+    usernameFormValidation(usernameForm);
+    
+});
+
+
+
+function passwordFormValidation(form) {
+    if (form.nextSibling != null) {
+        form.nextSibling.remove();
     }
 
-    if (usernameForm.value === '' || usernameForm.value === null) {
-        usernameForm.classList.add('is-invalid');
-        usernameForm.insertAdjacentHTML("afterend", `<div class="invalid-feedback">Username is required!</div>`);
-    } else if(!usernameForm.value.match(/^[a-zA-Z0-9_]*$/)) {
-        usernameForm.classList.add('is-invalid');
-        usernameForm.insertAdjacentHTML("afterend", `<div class="invalid-feedback">Please enter a valid username(a-z, A-Z, _)!</div>`);
-    } else if(usernameForm.value.length < 3) {
-        usernameForm.classList.add('is-invalid');
-        usernameForm.insertAdjacentHTML("afterend", `<div class="invalid-feedback">Min 3 character!</div>`);
-    } else if(usernameForm.value.length > 10) {
-        usernameForm.classList.add('is-invalid');
-        usernameForm.insertAdjacentHTML("afterend", `<div class="invalid-feedback">Max 10 character!</div>`);
+    profileSectionIsError = true;
+
+    if (form.value === '' || form.value === null) {
+        form.classList.add('is-invalid');
+        form.insertAdjacentHTML("afterend", `<div class="invalid-feedback">Password is required!</div>`);
+    } else if(form.value.length < 8) {
+        form.classList.add('is-invalid');
+        form.insertAdjacentHTML("afterend", `<div class="invalid-feedback">Min 8 character!</div>`);
     } else {
-        usernameForm.classList.remove('is-invalid');
-        usernameForm.classList.add('is-valid');
+        form.classList.remove('is-invalid');
+        form.classList.add('is-valid');
+        profileSectionIsError = false;
     }
-});
+}
 
 passwordForm.addEventListener('keyup', function () { 
-    if (passwordForm.nextSibling != null) {
-        passwordForm.nextSibling.remove();
-    }
-
-    if (passwordForm.value === '' || passwordForm.value === null) {
-        passwordForm.classList.add('is-invalid');
-        passwordForm.insertAdjacentHTML("afterend", `<div class="invalid-feedback">Password is required!</div>`);
-    } else if(passwordForm.value.length < 8) {
-        passwordForm.classList.add('is-invalid');
-        passwordForm.insertAdjacentHTML("afterend", `<div class="invalid-feedback">Min 8 character!</div>`);
-    } else {
-        passwordForm.classList.remove('is-invalid');
-        passwordForm.classList.add('is-valid');
-    }
+    passwordFormValidation(passwordForm);
+    
 });
 
+
+
+function confirmPasswordFormValidation(form) {
+    if (form.nextSibling != null) {
+        form.nextSibling.remove();
+    }
+
+    profileSectionIsError = true;
+
+    if (form.value === '' || form.value === null) {
+        form.classList.add('is-invalid');
+        form.insertAdjacentHTML("afterend", `<div class="invalid-feedback">Confirm Password is required!</div>`);
+    } else if(form.value.length < 8) {
+        form.classList.add('is-invalid');
+        form.insertAdjacentHTML("afterend", `<div class="invalid-feedback">Min 8 character!</div>`);
+    } else if(form.value !== passwordForm.value) {
+        form.classList.add('is-invalid');
+        form.insertAdjacentHTML("afterend", `<div class="invalid-feedback">Confirm Password is not same with password!</div>`);
+    } else {
+        form.classList.remove('is-invalid');
+        form.classList.add('is-valid');
+        profileSectionIsError = false;
+    }
+}
 
 confirmPasswordForm.addEventListener('keyup', function () { 
-    if (confirmPasswordForm.nextSibling != null) {
-        confirmPasswordForm.nextSibling.remove();
+    confirmPasswordFormValidation(confirmPasswordForm);
+    
+});
+
+
+function pinFormValidation(form) {
+    if (form.nextSibling != null) {
+        form.nextSibling.remove();
     }
 
-    if (confirmPasswordForm.value === '' || confirmPasswordForm.value === null) {
-        confirmPasswordForm.classList.add('is-invalid');
-        confirmPasswordForm.insertAdjacentHTML("afterend", `<div class="invalid-feedback">Confirm Password is required!</div>`);
-    } else if(confirmPasswordForm.value !== passwordForm.value) {
-        confirmPasswordForm.classList.add('is-invalid');
-        confirmPasswordForm.insertAdjacentHTML("afterend", `<div class="invalid-feedback">Confirm Password is not same with password!</div>`);
-    } else if(passwordForm.value.length < 8) {
-        confirmPasswordForm.classList.add('is-invalid');
-        confirmPasswordForm.insertAdjacentHTML("afterend", `<div class="invalid-feedback">Min 8 character!</div>`);
+    pinSectionIsError = true;
+
+    if (form.value === '' || form.value === null) {
+        form.classList.add('is-invalid');
+        form.insertAdjacentHTML("afterend", `<div class="invalid-feedback">PIN is required!</div>`);
+        btnBack.removeAttribute('onclick');
+        registerBtn.setAttribute('type', 'button');
+    } else if(!form.value.match(/^[0-9]*$/)) {
+        form.classList.add('is-invalid');
+        form.insertAdjacentHTML("afterend", `<div class="invalid-feedback">PIN is must be integer!</div>`);
+        btnBack.removeAttribute('onclick');
+        registerBtn.setAttribute('type', 'button');
+    } else if(form.value.length != 6) {
+        form.classList.add('is-invalid');
+        form.insertAdjacentHTML("afterend", `<div class="invalid-feedback">PIN must be 6 characters!</div>`);
+        btnBack.removeAttribute('onclick');
+        registerBtn.setAttribute('type', 'button');
     } else {
-        confirmPasswordForm.classList.remove('is-invalid');
-        confirmPasswordForm.classList.add('is-valid');
+        form.classList.remove('is-invalid');
+        form.classList.add('is-valid');
+        pinSectionIsError = false;
+    }
+}
+
+pinForm.addEventListener('keyup', function () { 
+    pinFormValidation(pinForm);
+});
+
+
+btnNext.addEventListener('mouseover', function() {
+    if (!profileSectionIsError) {
+        btnNext.setAttribute('onclick', 'pinSectionAction()');
+    } else {
+        btnNext.removeAttribute('onclick');
     }
 });
 
-pinForm.addEventListener('keyup', function () { 
-    if (pinForm.value === '' || pinForm.value === null) {
-        if (pinForm.nextSibling != null) {
-            pinForm.nextSibling.remove();
-        }
-        pinForm.classList.add('is-invalid');
-        pinForm.insertAdjacentHTML("afterend", `<div class="invalid-feedback">PIN is required!</div>`);
-    } else {
-        if (pinForm.nextSibling != null) {
-            pinForm.nextSibling.remove();
-        }
+btnNext.addEventListener('click', function() {
+    nameFormValidation(nameForm);
+    emailFormValidation(emailForm);
+    usernameFormValidation(usernameForm);
+    passwordFormValidation(passwordForm);
+    confirmPasswordFormValidation(confirmPasswordForm);
+});
+
+btnBack.addEventListener('mouseover', function() {
+    if (!pinSectionIsError) {
+        btnBack.setAttribute('onclick', 'profileSectionAction()');
     }
+});
+
+btnBack.addEventListener('click', function() {
+    pinFormValidation(pinForm);
+});
+
+registerBtn.addEventListener('mouseover', function() {
+    if (!pinSectionIsError) {
+        registerBtn.setAttribute('type', 'submit');
+    }
+});
+
+registerBtn.addEventListener('click', function() {
+    pinFormValidation(pinForm);
 });

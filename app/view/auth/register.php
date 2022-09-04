@@ -59,7 +59,7 @@
                             <input type="password" class="form-control" name="confirmPassword" id="confirmPasswordForm">
                         </div>
 
-                        <button class="mb-3 btn btn-primary w-100" type="button" onclick="pinSectionAction()">Next</button>
+                        <button class="mb-3 btn btn-primary w-100" id="btnNext" type="button">Next</button>
                         
                         <p class="text-center">Already have an account? <a href="/users/login" class="mb-3">Login</a></p>
 
@@ -73,8 +73,8 @@
                             <input type="text" name="pin" class="form-control" id="pinForm">
                         </div>
     
-                        <button class="mb-3 btn btn-primary w-100" id="registerBtn" type="submit">Register</button>
-                        <button class="mb-3 btn btn-danger w-100" type="button" onclick="profileSectionAction()">Back</button>
+                        <button class="mb-3 btn btn-primary w-100" id="registerBtn">Register</button>
+                        <button class="mb-3 btn btn-danger w-100" id="btnBack" type="button">Back</button>
                         
                         <p class="text-center">Already have an account? <a href="/users/login" class="mb-3">Login</a></p>
 
