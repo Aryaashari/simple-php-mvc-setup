@@ -38,7 +38,7 @@ class AuthService {
         
         if($request->username == "") {
             throw new ValidationException("Username is required!");
-        } else if(!preg_match('/^[a-zA-Z_0-9]$/', $request->username)) {
+        } else if(!preg_match_all('/^[a-zA-Z_0-9]*$/', $request->username)) {
             throw new ValidationException("Username must be valid(a-z, A-Z, 0-9, _)!");
         } else if(strlen($request->username) < 3) {
             throw new ValidationException("Username min 3 characters!");

@@ -58,8 +58,25 @@ class AuthServiceTest extends TestCase {
 
     public function testRegisterUsernameValidation() : void {
         // Username is required
-        $this->expectExceptionMessage("Username is required!");
-        $this->authService->register(new RegisterRequest("Arya", "aryaashari@gmail.com", "", "12345678", "12345678", "123456"));
+        // $this->expectExceptionMessage("Username is required!");
+        // $this->authService->register(new RegisterRequest("Arya", "aryaashari@gmail.com", "", "12345678", "12345678", "123456"));
+
+        // Username must be valid(a-z, A-Z, 0-9, _)
+        // $this->expectExceptionMessage("Username must be valid(a-z, A-Z, 0-9, _)!");
+        // $this->authService->register(new RegisterRequest("Arya", "aryaashari@gmail.com", "Arya%123", "12345678", "12345678", "123456"));
+
+        // Username min 3 characters
+        // $this->expectExceptionMessage("Username min 3 characters!");
+        // $this->authService->register(new RegisterRequest("Arya", "aryaashari@gmail.com", "Ar", "12345678", "12345678", "123456"));
+
+        // Username max 10 characters
+        // $this->expectExceptionMessage("Username max 10 characters!");
+        // $this->authService->register(new RegisterRequest("Arya", "aryaashari@gmail.com", "Aryaashariiiiii", "12345678", "12345678", "123456"));
+
+        // Username is already exist
+        $this->expectExceptionMessage("Username is already exist!");
+        $this->userRepo->create(new User(null, "Arya", "arya@gmail.com", "arya", "12345678", "arya.jpg", false, null));
+        $this->authService->register(new RegisterRequest("Arya", "aryaashari@gmail.com", "arya", "12345678", "12345678", "123456"));
     }
 
 
