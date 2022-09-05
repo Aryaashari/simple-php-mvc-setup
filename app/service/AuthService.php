@@ -2,6 +2,7 @@
 
 namespace Ewallet\Service;
 
+use Ewallet\Domain\User;
 use Ewallet\Exception\ValidationException;
 use Ewallet\Model\Auth\RegisterRequest;
 use Ewallet\Repository\UserRepository;
@@ -73,6 +74,9 @@ class AuthService {
         }
 
         // Create Data User
+        $user = $this->userRepo->create(new User(null, $request->name, $request->email, $request->username, password_hash($request->password, PASSWORD_BCRYPT), "user.jpg", false, null));
+
+        // Create wallet for user
 
         // Send verification link to user's email
 
