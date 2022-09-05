@@ -9,9 +9,9 @@ use Ewallet\Repository\UserRepository;
 class AuthService {
 
     private UserRepository $userRepo;
-    public function __construct()
+    public function __construct(UserRepository $userRepo)
     {
-        $this->userRepo = new UserRepository;
+        $this->userRepo = $userRepo;
     }
 
     public function register(RegisterRequest $request) {
