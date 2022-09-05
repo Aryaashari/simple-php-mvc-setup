@@ -58,9 +58,9 @@ class AuthService {
         if($request->confirmPassword == "") {
             throw new ValidationException("Password confirmation is required!");
         } else if(strlen($request->confirmPassword) < 8) {
-            throw new ValidationException("Confirmation password min 8 characters!");
+            throw new ValidationException("Password confirmation min 8 characters!");
         } else if($request->password !== $request->confirmPassword) {
-            throw new ValidationException("Confirmation password is not same with password!");
+            throw new ValidationException("Password confirmation is not same with password!");
         }
 
         // Create Data User

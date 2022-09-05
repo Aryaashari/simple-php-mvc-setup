@@ -79,5 +79,29 @@ class AuthServiceTest extends TestCase {
         $this->authService->register(new RegisterRequest("Arya", "aryaashari@gmail.com", "arya", "12345678", "12345678", "123456"));
     }
 
+    public function testRegisterPasswordValidation() : void {
+        // Password is required
+        // $this->expectExceptionMessage("Password is required!");
+        // $this->authService->register(new RegisterRequest("Arya", "aryaashari@gmail.com", "arya", "", "12345678", "123456"));
+
+        // Password min 8 characters
+        $this->expectExceptionMessage("Password min 8 characters!");
+        $this->authService->register(new RegisterRequest("Arya", "aryaashari@gmail.com", "arya", "123456", "12345678", "123456"));
+    }
+
+    public function testRegisterConfirmPasswordValidation() : void {
+        // Password confirmation is required
+        // $this->expectExceptionMessage("Password confirmation is required!");
+        // $this->authService->register(new RegisterRequest("Arya", "aryaashari@gmail.com", "arya", "12345678", "", "123456"));
+
+        // Password confirmation min 8 characters
+        // $this->expectExceptionMessage("Password confirmation min 8 characters!");
+        // $this->authService->register(new RegisterRequest("Arya", "aryaashari@gmail.com", "arya", "12345678", "12345", "123456"));
+
+        // Password confirmation is not same with password
+        $this->expectExceptionMessage("Password confirmation is not same with password!");
+        $this->authService->register(new RegisterRequest("Arya", "aryaashari@gmail.com", "arya", "12345678", "12345789", "123456"));
+    }
+
 
 }
