@@ -3,15 +3,19 @@
 namespace Ewallet\Service;
 
 use Ewallet\Domain\User;
+use Ewallet\Domain\Wallet;
 use Ewallet\Exception\ValidationException;
 use Ewallet\Model\Auth\RegisterRequest;
 use Ewallet\Repository\UserRepository;
+use Ewallet\Repository\WalletRepository;
 
 class AuthService {
 
     private UserRepository $userRepo;
-    public function __construct(UserRepository $userRepo)
+    private WalletRepository $walletRepo;
+    public function __construct(WalletRepository $walletRepo, UserRepository $userRepo)
     {
+        $this->walletRepo = $walletRepo;
         $this->userRepo = $userRepo;
     }
 
@@ -77,6 +81,7 @@ class AuthService {
         $user = $this->userRepo->create(new User(null, $request->name, $request->email, $request->username, password_hash($request->password, PASSWORD_BCRYPT), "user.jpg", false, null));
 
         // Create wallet for user
+        $wallet = $this->walletRepo->create(new Wallet(null,$user->id, 0, $request->pin));
 
         // Send verification link to user's email
 
