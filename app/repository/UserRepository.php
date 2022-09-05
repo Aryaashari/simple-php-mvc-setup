@@ -15,25 +15,38 @@ class UserRepository {
     }
 
     public function findByEmail(string $email) : ?User {
-        $stmt = $this->db->prepare('SELECT * FROM users WHERE email=?');
-        $stmt->execute([$email]);
+        try {
 
-        if($user = $stmt->fetch()) {
-            return new User($user["id"], $user["name"], $user["email"], $user["username"], $user["password"], $user["profile_photo"], $user["email_verified"], $user["email_verified_time"], $user["create_time"], $user["update_time"]);
+            $stmt = $this->db->prepare('SELECT * FROM users WHERE email=?');
+            $stmt->execute([$email]);
+
+            if($user = $stmt->fetch()) {
+                return new User($user["id"], $user["name"], $user["email"], $user["username"], $user["password"], $user["profile_photo"], $user["email_verified"], $user["email_verified_time"], $user["create_time"], $user["update_time"]);
+            }
+
+            return null;
+
+        } catch(\Exception $e) {
+            throw $e;
         }
-
-        return null;
+        
     }
 
     public function findByUsername(string $username) : ?User {
-        $stmt = $this->db->prepare('SELECT * FROM users WHERE username=?');
-        $stmt->execute([$username]);
 
-        if($user = $stmt->fetch()) {
-            return new User($user["id"], $user["name"], $user["email"], $user["username"], $user["password"], $user["profile_photo"], $user["email_verified"], $user["email_verified_time"], $user["create_time"], $user["update_time"]);
+        try {
+
+            $stmt = $this->db->prepare('SELECT * FROM users WHERE username=?');
+            $stmt->execute([$username]);
+    
+            if($user = $stmt->fetch()) {
+                return new User($user["id"], $user["name"], $user["email"], $user["username"], $user["password"], $user["profile_photo"], $user["email_verified"], $user["email_verified_time"], $user["create_time"], $user["update_time"]);
+            }
+    
+            return null;
+        } catch(\Exception $e) {
+            throw $e;
         }
-
-        return null;
     }
     
 
