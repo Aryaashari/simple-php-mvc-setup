@@ -103,5 +103,20 @@ class AuthServiceTest extends TestCase {
         $this->authService->register(new RegisterRequest("Arya", "aryaashari@gmail.com", "arya", "12345678", "12345789", "123456"));
     }
 
+    public function testRegisterPinValidation() : void {
+        // PIN Number is required
+        // $this->expectExceptionMessage("PIN Number is required!");
+        // $this->authService->register(new RegisterRequest("Arya", "aryaashari@gmail.com", "arya", "12345678", "12345678", ""));
+
+        // PIN Number must be integer
+        // $this->expectExceptionMessage("PIN Number must be integer!");
+        // $this->authService->register(new RegisterRequest("Arya", "aryaashari@gmail.com", "arya", "12345678", "12345678", "asd"));
+
+        // PIN Number must be 6 characters
+        $this->expectExceptionMessage("PIN Number must be 6 characters!");
+        $this->authService->register(new RegisterRequest("Arya", "aryaashari@gmail.com", "arya", "12345678", "12345678", "12345"));
+        $this->authService->register(new RegisterRequest("Arya", "aryaashari@gmail.com", "arya", "12345678", "12345678", "1234567"));
+    }
+
 
 }

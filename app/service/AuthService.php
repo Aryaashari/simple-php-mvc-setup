@@ -63,6 +63,15 @@ class AuthService {
             throw new ValidationException("Password confirmation is not same with password!");
         }
 
+
+        if($request->pin == "") {
+            throw new ValidationException("PIN Number is required!");
+        } else if (!preg_match_all('/^[0-9]*$/',$request->pin)) {
+            throw new ValidationException("PIN Number must be integer!");
+        } else if(strlen($request->pin) != 6) {
+            throw new ValidationException("PIN Number must be 6 characters!");
+        }
+
         // Create Data User
 
         // Send verification link to user's email
