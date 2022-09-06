@@ -24,6 +24,10 @@ class AuthController {
 
     }
 
+    public function emailVerification() : void {
+        var_dump($_GET["user_id"]);
+        var_dump($_GET["token"]);
+    }
 
     public function loginView() : void {
         View::render('/../view/auth/login.php');

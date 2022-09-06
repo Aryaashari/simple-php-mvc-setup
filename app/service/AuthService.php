@@ -2,21 +2,27 @@
 
 namespace Ewallet\Service;
 
+use Ewallet\Config\App;
 use Ewallet\Domain\User;
 use Ewallet\Domain\Wallet;
 use Ewallet\Exception\ValidationException;
+use Ewallet\Mail\VerificationMail;
 use Ewallet\Model\Auth\RegisterRequest;
+use Ewallet\Repository\EmailVerificationRepository;
 use Ewallet\Repository\UserRepository;
 use Ewallet\Repository\WalletRepository;
+use Exception;
 
 class AuthService {
 
     private UserRepository $userRepo;
+    private EmailVerificationRepository $emailVerificationRepo;
     private WalletRepository $walletRepo;
-    public function __construct(WalletRepository $walletRepo, UserRepository $userRepo)
+    public function __construct(WalletRepository $walletRepo, EmailVerificationRepository $emailVerificationRepo, UserRepository $userRepo)
     {
         $this->walletRepo = $walletRepo;
         $this->userRepo = $userRepo;
+        $this->emailVerificationRepo = $emailVerificationRepo;
     }
 
     public function register(RegisterRequest $request) {
@@ -83,7 +89,23 @@ class AuthService {
         // Create wallet for user
         $wallet = $this->walletRepo->create(new Wallet(null,$user->id, 0, $request->pin));
 
+        // Create email verification token
+        $token = $this->emailVerificationRepo->create($user->id);
+
+        // Create url for email verification
+        $url = App::$baseUrl."/users/email/verification?user_id=$user->id&token=$token";
+
         // Send verification link to user's email
+        $mail = new VerificationMail;
+        $mail->recipients = [$user->email => $user->name];
+        $mail->from["address"] = "aryaashari100@gmail.com";
+        $mail->from["name"] = "Admin";
+        $mail->view("mail/verification.html", ["link" => $url]);
+        $status = $mail->build("Email Verification");
+        if($status != true) {
+            throw new Exception($status);
+        }
+        return $status;
 
         // Return Response
 
