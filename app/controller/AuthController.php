@@ -5,8 +5,19 @@ namespace Ewallet\Controller;
 use Ewallet\App\View;
 use Ewallet\Helper\FlashMessage;
 use Ewallet\Model\Auth\RegisterRequest;
+use Ewallet\Repository\EmailVerificationRepository;
+use Ewallet\Repository\UserRepository;
+use Ewallet\Repository\WalletRepository;
+use Ewallet\Service\AuthService;
 
 class AuthController {
+
+    private AuthService $authService;
+
+    public function __construct()
+    {
+        $this->authService = new AuthService(new WalletRepository, new EmailVerificationRepository, new UserRepository);
+    }
 
     public function registerView() : void {
         View::render('/../view/auth/register.php');
