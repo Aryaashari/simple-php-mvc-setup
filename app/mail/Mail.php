@@ -7,7 +7,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 abstract class Mail {
 
-    private PHPMailer $mail;
+    protected PHPMailer $mail;
 
     public function __construct()
     {
@@ -22,19 +22,22 @@ abstract class Mail {
     public bool $isHtmlView = true;
 
 
-    public function view(string $path, array $data) : void {
-        $this->mail->msgHTML(file_get_contents(__DIR__."/../view/".$path));
+    public function view(string $path, array $data = []) : void {
     }
 
-    public function send(string $subject) : bool {
+    public function build(string $subject) : bool|string {
         $this->mail->Subject = $subject;
         $this->mail->setFrom($this->from["address"], $this->from["name"]);
 
         foreach($this->recipients as $address => $name) {
-            $this->mail->addCC($address, $name);
+            $this->mail->addAddress($address, $name);
         }
-
-        return true;
+        
+        if ($this->mail->send()) {
+            return true;
+        } else {
+            return $this->mail->ErrorInfo;
+        }
     }
 
 
