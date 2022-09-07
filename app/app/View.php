@@ -2,6 +2,8 @@
 
 namespace Ewallet\App;
 
+use Ewallet\Config\App;
+
 class View {
 
     public static function render(string $pathToView, array $data = []) {
@@ -9,7 +11,9 @@ class View {
     }
 
     public static function redirect(string $path) {
-        header("location: $path");
+        $baseUrl = App::$baseUrl;
+        $url = $baseUrl.$path;
+        header("location: $url");
         exit();
     }
 

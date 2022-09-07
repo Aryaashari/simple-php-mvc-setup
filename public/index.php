@@ -3,11 +3,16 @@
 require_once __DIR__."/../vendor/autoload.php";
 
 use Ewallet\App\Route;
+use Ewallet\Config\Database;
+use Ewallet\Config\Mail;
 use Ewallet\Controller\HomeController;
 use Ewallet\Controller\AuthController;
 use Ewallet\Controller\UserController;
 use Ewallet\Controller\WalletController;
 use Ewallet\Helper\FlashMessage;
+
+Database::getConnection("mysql", "production");
+Mail::getMailer("production");
 
 Route::get("/", HomeController::class, "index", []);
 

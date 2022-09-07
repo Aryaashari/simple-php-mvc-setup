@@ -99,9 +99,13 @@
     use Ewallet\Helper\FlashMessage;
 
     if(isset($_COOKIE['FLASH_MESSAGE_SUCCESS'])) : ?>
-            <script>
-                swal('<?= FlashMessage::GetMessage(); ?>');
-            </script>
+        <script>
+            swal("Success!", '<?= FlashMessage::GetMessage() ?>', "success");
+        </script>
+    <?php elseif(isset($_COOKIE["FLASH_MESSAGE_ERROR"])) : ?>
+        <script>
+                swal("Error!", '<?= FlashMessage::GetMessage() ?>', "error");
+        </script>
     <?php endif; ?>
 
     

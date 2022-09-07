@@ -60,10 +60,17 @@
     <!-- Sweetalert -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-    <?php if(false) : ?>
-        <script>
+    <?php
 
-            swal('Hallo');
+    use Ewallet\Helper\FlashMessage;
+
+    if(isset($_COOKIE['FLASH_MESSAGE_SUCCESS'])) : ?>
+        <script>
+            swal("Success!", '<?= FlashMessage::GetMessage() ?>', "success");
+        </script>
+    <?php elseif(isset($_COOKIE["FLASH_MESSAGE_ERROR"])) : ?>
+        <script>
+                swal("Error!", '<?= FlashMessage::GetMessage() ?>', "error");
         </script>
     <?php endif; ?>
 

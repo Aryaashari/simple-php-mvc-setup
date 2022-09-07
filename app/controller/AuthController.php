@@ -3,6 +3,7 @@
 namespace Ewallet\Controller;
 
 use Ewallet\App\View;
+use Ewallet\Exception\ValidationException;
 use Ewallet\Helper\FlashMessage;
 use Ewallet\Model\Auth\RegisterRequest;
 use Ewallet\Repository\EmailVerificationRepository;
@@ -31,7 +32,20 @@ class AuthController {
         $confirmPassword = htmlspecialchars(trim($_POST["confirmPassword"] ?? ""));
         $pin = htmlspecialchars(trim($_POST["pin"] ?? ""));
 
-        $request = new RegisterRequest($name, $email, $username, $password, $confirmPassword, $pin);
+        try {
+            $request = new RegisterRequest($name, $email, $username, $password, $confirmPassword, $pin);
+
+            $response = $this->authService->register($request);
+
+            FlashMessage::Send('success', "Success to register, please confirmation your email address ($response)");
+            View::redirect("/users/login");
+        } catch(ValidationException $e) {
+            FlashMessage::Send('error', $e->getMessage());
+            View::redirect('/users/register');
+        } catch(\Exception $e) {
+            var_dump("Error 500");
+            exit();
+        }
 
     }
 
