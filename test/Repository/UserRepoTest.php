@@ -59,4 +59,16 @@ class UserRepoTest extends TestCase {
     }
 
 
+    public function testUpdateEmailVerification() : void {
+        $user = $this->userRepo->create(new User(null, "Arya", "aryaashari100@gmail.com", "aryaashari", "12345678", "arya.jpg", false, null));
+        var_dump($user);
+
+        $this->userRepo->updateEmailVerification($user->id);
+
+        $user = $this->userRepo->findByEmail("aryaashari100@gmail.com");
+        var_dump($user);
+        $this->assertTrue($user->email_verified);
+    }
+
+
 }

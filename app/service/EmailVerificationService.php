@@ -11,16 +11,35 @@ class EmailVerificationService {
     private EmailVerificationRepository $emailVerificationRepo;
     private UserRepository $userRepo;
 
-    public function __construct()
+    public function __construct(EmailVerificationRepository $emailVerificationRepo, UserRepository $userRepo)
     {
-        $this->emailVerificationRepo = new EmailVerificationRepository;
-        $this->userRepo = new UserRepository;
+        $this->emailVerificationRepo = $emailVerificationRepo;
+        $this->userRepo = $userRepo;
     }
 
 
-    // public function isValidToken(int $userId, string $token) : bool {
+    public function isValidToken(int $userId, string $token) : bool {
 
-    // }
+        try {
+            $tokenUser = $this->emailVerificationRepo->findByUserId($userId);
+            if (!is_null($tokenUser)) {
+                if ($tokenUser === $token) {
+                    // Ubah email verification status di user
+                    $this->userRepo->updateEmailVerification($userId);
+                    
+                    // Delete token email verification dari user
+                    $this->emailVerificationRepo->deleteByUserId($userId);
+
+                    return true;
+                }
+            }
+
+            return false;
+        } catch(\Exception $e) {
+            throw $e;
+        }
+
+    }
 
 
 }

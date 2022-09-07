@@ -70,6 +70,16 @@ class UserRepository {
 
     }
 
+    public function updateEmailVerification(int $userId) {
+        try {
+            $dateNow = date("Y-m-d H:i:s", time());
+            $stmt = $this->db->prepare('UPDATE users SET email_verified=true, email_verified_time=? WHERE id=?');
+            $stmt->execute([$dateNow, $userId]);
+        } catch(\Exception $e) {
+            throw $e;
+        }
+    }
+
 
     public function deleteAll() : void {
         try {
