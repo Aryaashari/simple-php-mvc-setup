@@ -10,14 +10,17 @@ use Ewallet\Repository\EmailVerificationRepository;
 use Ewallet\Repository\UserRepository;
 use Ewallet\Repository\WalletRepository;
 use Ewallet\Service\AuthService;
+use Ewallet\Service\EmailVerificationService;
 
 class AuthController {
 
     private AuthService $authService;
+    private EmailVerificationService $emailVerificationService;
 
     public function __construct()
     {
         $this->authService = new AuthService(new WalletRepository, new EmailVerificationRepository, new UserRepository);
+        $this->emailVerificationService = new EmailVerificationService(new EmailVerificationRepository, new UserRepository);
     }
 
     public function registerView() : void {
@@ -50,8 +53,26 @@ class AuthController {
     }
 
     public function emailVerification() : void {
-        var_dump($_GET["user_id"]);
-        var_dump($_GET["token"]);
+        $userId = htmlspecialchars(trim($_GET["user_id"] ?? ""));
+        $token = htmlspecialchars(trim($_GET["token"] ?? ""));
+
+        try {
+            if ($userId != "" && $token != "") {
+                $response = $this->emailVerificationService->isValidToken($userId, $token);
+    
+                if ($response == true) {
+                    FlashMessage::Send('success', 'Success verification email!');
+                    View::redirect("/users/login");
+                }
+            }
+    
+            FlashMessage::Send('error', 'Invalid token or user id!');
+            View::redirect("/users/login");
+        } catch(\Exception $e) {
+            var_dump($e);
+            exit();
+        }
+
     }
 
     public function loginView() : void {
