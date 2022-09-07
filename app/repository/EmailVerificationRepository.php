@@ -15,6 +15,31 @@ class EmailVerificationRepository {
     }
 
 
+    public function findByUserId(int $userId) : ?string {
+        try {
+            $stmt = $this->db->prepare('SELECT user_id,token FROM email_verifications WHERE user_id=?');
+            $stmt->execute([$userId]);
+            if ($data = $stmt->fetch()) {
+                return $data["token"];
+            }
+
+            return null;
+        } catch(\Exception $e) {
+            throw $e;
+        }
+    }
+
+
+    public function deleteByUserId(int $userId) :void {
+        try {
+            $stmt = $this->db->prepare("DELETE FROM email_verifications WHERE user_id=?");
+            $stmt->execute([$userId]);
+        } catch(\Exception $e) {
+            throw $e;
+        }
+    }
+
+
     public function create(int $userId) :string {
 
         try {
