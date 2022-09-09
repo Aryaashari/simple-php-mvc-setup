@@ -45,7 +45,7 @@
                         <a href="#">Forgot Password</a>
                     </div>
 
-                    <button class="mb-3 btn btn-primary w-100">Login</button>
+                    <button class="mb-3 btn btn-primary w-100" id="btnLogin" disabled>Login</button>
                     
                     <p class="text-center">Don't have an account? <a href="/users/register" class="mb-3">Register</a></p>
                     
