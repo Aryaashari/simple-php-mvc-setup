@@ -91,7 +91,7 @@
     <!-- Sweetalert -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-    <script src="../assets/js/validation/register-validation.js"></script>
+    <script src="../assets/js/validation/register.js"></script>
 
     <!-- Flash Message -->
     <?php

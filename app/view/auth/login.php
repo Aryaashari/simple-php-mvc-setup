@@ -35,13 +35,13 @@
                 <form action="#">
 
                     <div class="mb-3">
-                        <label for="username" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="username">
+                        <label for="usernameForm" class="form-label">Username</label>
+                        <input type="text" class="form-control" name="username" id="usernameForm">
                     </div>
 
                     <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password">
+                        <label for="passwordForm" class="form-label">Password</label>
+                        <input type="password" class="form-control" name="password" id="passwordForm">
                         <a href="#">Forgot Password</a>
                     </div>
 
@@ -59,6 +59,8 @@
 
     <!-- Sweetalert -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script src="../assets/js/validation/login.js"></script>
 
     <?php
 
