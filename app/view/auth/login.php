@@ -42,10 +42,10 @@
                     <div class="mb-3">
                         <label for="passwordForm" class="form-label">Password</label>
                         <input type="password" class="form-control" name="password" id="passwordForm">
-                        <a href="#">Forgot Password</a>
+                        <a href="#" id="forgotPasswordBtn">Forgot Password</a>
                     </div>
 
-                    <button class="mb-3 btn btn-primary w-100" id="btnLogin" disabled>Login</button>
+                    <button class="mb-3 btn btn-primary w-100" id="btnLogin" type="button">Login</button>
                     
                     <p class="text-center">Don't have an account? <a href="/users/register" class="mb-3">Register</a></p>
                     

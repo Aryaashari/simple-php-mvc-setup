@@ -1,9 +1,11 @@
 const usernameForm = document.getElementById("usernameForm");
 const passwordForm = document.getElementById("passwordForm");
 const btnLogin = document.getElementById("btnLogin");
+const forgotPasswordBtn = document.getElementById("forgotPasswordBtn");
 let isError = true
 
-usernameForm.addEventListener('keyup', () => {
+
+const usernameFormValidation = (usernameForm) => {
 
     if (usernameForm.nextSibling != null) {
         usernameForm.nextSibling.remove()
@@ -11,30 +13,48 @@ usernameForm.addEventListener('keyup', () => {
 
     isError = true
 
-     if (usernameForm.value.length == "" || usernameForm.value.length == null) {
+    if (usernameForm.value.length == "" || usernameForm.value.length == null) {
         usernameForm.classList.add('is-invalid');
         usernameForm.insertAdjacentHTML("afterend", `<div class="invalid-feedback">Username is required!</div>`);
-      } else {
-         usernameForm.classList.remove('is-invalid');
-         isError = false
-     }
+    } else {
+        usernameForm.classList.remove('is-invalid');
+        isError = false
+    }
+    
+}
 
-});
-
-passwordForm.addEventListener('keyup', () => {
-
-    if (passwordForm.nextSibling.nextSibling != null) {
-        passwordForm.nextSibling.nextSibling.remove()
+const passwordFormValidation = (passwordForm) => {
+    if (forgotPasswordBtn.nextSibling != null) {
+        forgotPasswordBtn.nextSibling.remove()
     }
 
-    isError =  false
+    isError =  true
 
-     if (passwordForm.value.length == "" || passwordForm.value.length == null) {
+    if (passwordForm.value.length == "" || passwordForm.value.length == null) {
         passwordForm.classList.add('is-invalid');
-        passwordForm.insertAdjacentHTML("afterend", `<div class="invalid-feedback">Password is required!</div>`);
-      } else {
-         passwordForm.classList.remove('is-invalid');
-         isError = false
-     }
+        forgotPasswordBtn.insertAdjacentHTML("afterend", `<div class="invalid-feedback">Password is required!</div>`);
+    } else {
+        passwordForm.classList.remove('is-invalid');
+        isError = false
+    }
 
+}
+
+usernameForm.addEventListener('keyup', () => {
+    usernameFormValidation(usernameForm);
+})
+
+passwordForm.addEventListener('keyup', () => {
+    passwordFormValidation(passwordForm);
+})
+
+btnLogin.addEventListener('mouseover', () => {
+    if (!isError) {
+        btnLogin.setAttribute('type', 'submit');
+    }
 });
+
+btnLogin.addEventListener('click', () => {
+    usernameFormValidation(usernameForm);
+    passwordFormValidation(passwordForm);
+})
