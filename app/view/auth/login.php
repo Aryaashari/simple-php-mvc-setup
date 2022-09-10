@@ -32,7 +32,7 @@
                 <div class="card-title text-center fw-bold">
                     <h1 class="fs-2">LOGIN</h1>
                 </div>
-                <form action="#">
+                <form action="/users/login" method="POST">
 
                     <div class="mb-3">
                         <label for="usernameForm" class="form-label">Username</label>

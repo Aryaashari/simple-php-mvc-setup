@@ -79,6 +79,13 @@ class AuthController {
         View::render('/../view/auth/login.php');
     }
 
+    public function login() : void {
+        $username = htmlspecialchars(trim($_POST["username"] ?? ""));
+        $password = htmlspecialchars(trim($_POST["password"] ?? ""));
+        var_dump($username);
+        var_dump($password);
+    }
+
     public function changePasswordView() : void {
         View::render('/../view/auth/change-password.php');
     }

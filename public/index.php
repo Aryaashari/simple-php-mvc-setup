@@ -20,6 +20,7 @@ Route::get("/", HomeController::class, "index", []);
 Route::get("/users/register", AuthController::class, "registerView", []);
 Route::post("/users/register", AuthController::class, "register", []);
 Route::get("/users/login", AuthController::class, "loginView", []);
+Route::post("/users/login", AuthController::class, "login", []);
 Route::get("/password/change", AuthController::class, "changePasswordView", []);
 Route::get("/password/forgot", AuthController::class, "forgotPasswordView", []);
 Route::get("/password/reset", AuthController::class, "resetPasswordView", []);
