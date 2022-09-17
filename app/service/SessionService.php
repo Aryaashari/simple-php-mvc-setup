@@ -29,4 +29,20 @@ class SessionService {
         }
     }
 
+    public function updateLastActivatedTime(int $sessionId) : void {
+        try {
+            $session = $this->sessionRepo->findById($sessionId);
+            if ($session != null) {
+                $timeNow = time();
+                $session->last_activated_time = date("Y-m-d H:i:s", $timeNow);
+                $session->expire_time = date("Y-m-d H:i:s", $timeNow + 300);
+                $this->sessionRepo->update($session);
+                return;
+            }
+
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
+
 }
