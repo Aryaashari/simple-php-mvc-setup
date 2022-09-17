@@ -7,22 +7,28 @@ use Ewallet\Domain\User;
 use Ewallet\Domain\Wallet;
 use Ewallet\Exception\ValidationException;
 use Ewallet\Mail\VerificationMail;
+use Ewallet\Model\Auth\LoginRequest;
+use Ewallet\Model\Auth\LoginResponse;
 use Ewallet\Model\Auth\RegisterRequest;
+use Ewallet\Model\Session\CreateSessionRequest;
 use Ewallet\Repository\EmailVerificationRepository;
 use Ewallet\Repository\UserRepository;
 use Ewallet\Repository\WalletRepository;
 use Exception;
+use Firebase\JWT\JWT;
 
 class AuthService {
 
     private UserRepository $userRepo;
     private EmailVerificationRepository $emailVerificationRepo;
     private WalletRepository $walletRepo;
-    public function __construct(WalletRepository $walletRepo, EmailVerificationRepository $emailVerificationRepo, UserRepository $userRepo)
+    private SessionService $sessionService;
+    public function __construct(WalletRepository $walletRepo, EmailVerificationRepository $emailVerificationRepo, UserRepository $userRepo, SessionService $sessionService)
     {
         $this->walletRepo = $walletRepo;
         $this->userRepo = $userRepo;
         $this->emailVerificationRepo = $emailVerificationRepo;
+        $this->sessionService = $sessionService;
     }
 
     public function register(RegisterRequest $request) : string {
@@ -109,6 +115,42 @@ class AuthService {
 
             // Return Response
             return $user->email;
+        } catch(\Exception $e) {
+            throw $e;
+        }
+
+    }
+
+    public function login(LoginRequest $request) : LoginResponse {
+
+        try {
+            // Validasi request
+            if ($request->username == "") {
+                throw new ValidationException("Username is required!");
+            }
+            
+            if ($request->password == "") {
+                throw new ValidationException("Password is required!");
+            }
+
+            $user = $this->userRepo->findByUsername($request->username);
+            if ($user == null || !password_verify($request->password, $user->password)) {
+                throw new ValidationException("Username or password invalid!");
+            }
+
+            // Create session
+            $ipAddr = $_SERVER["REMOTE_ADDR"];
+            $userAgent = $_SERVER["USER_AGENT"];
+            $session = $this->sessionService->createSession(new CreateSessionRequest($user->id, $ipAddr, $userAgent));
+
+            // Create JWT Token
+            $payload = [
+                "session_id" => $session->id,
+                "username" => $user->username
+            ];
+
+            $jwt = JWT::encode($payload, App::$appKey, 'HS256');
+            return new LoginResponse($jwt);
         } catch(\Exception $e) {
             throw $e;
         }
