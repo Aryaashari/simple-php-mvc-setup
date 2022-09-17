@@ -43,5 +43,18 @@ class SessionServiceTest extends TestCase {
         $this->assertIsObject($session);
     }
 
+    public function testDeleteSession() : void {
+        $user = $this->userRepo->create(new User(null, "Arya", "aryaashari100@gmail.com", "arya", "12345678", "profile.jpg", false, null));
+        $session = $this->sessionService->createSession(new CreateSessionRequest($user->id, "192.168.100.12", "Chrome"));
+        $session = $this->sessionRepo->findById($session->id);
+        var_dump($session);
+        $this->assertIsObject($session);
+
+        $this->sessionService->deleteSession($session->id);
+        $session = $this->sessionRepo->findById($session->id);
+        var_dump($session);
+        $this->assertNull($session);
+    }
+
 
 }

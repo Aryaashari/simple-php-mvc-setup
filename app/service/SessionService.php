@@ -45,4 +45,13 @@ class SessionService {
         }
     }
 
+    public function deleteSession(int $sessionId) : void {
+        try {
+            $this->sessionRepo->delete($sessionId);
+            return;
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
+
 }
