@@ -5,19 +5,19 @@ namespace Ewallet\Service;
 use Ewallet\Domain\User;
 use Ewallet\Model\Auth\RegisterRequest;
 use Ewallet\Repository\EmailVerificationRepository;
+use Ewallet\Repository\SessionRepository;
 use Ewallet\Repository\UserRepository;
 use Ewallet\Repository\WalletRepository;
 use PHPUnit\Framework\TestCase;
 
 class AuthServiceTest extends TestCase {
 
-
     private AuthService $authService;
     private UserRepository $userRepo;
 
     public function setUp() : void{
         $this->userRepo = new UserRepository;
-        $this->authService = new AuthService(new WalletRepository, new EmailVerificationRepository, $this->userRepo);
+        $this->authService = new AuthService(new WalletRepository, new EmailVerificationRepository, $this->userRepo, new SessionService(new SessionRepository, $this->userRepo));
         $this->userRepo->deleteAll();
     }
 

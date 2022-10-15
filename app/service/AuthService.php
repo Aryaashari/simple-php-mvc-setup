@@ -3,6 +3,7 @@
 namespace Ewallet\Service;
 
 use Ewallet\Config\App;
+use Ewallet\Config\Database;
 use Ewallet\Domain\User;
 use Ewallet\Domain\Wallet;
 use Ewallet\Exception\ValidationException;
@@ -90,6 +91,7 @@ class AuthService {
                 throw new ValidationException("PIN Number must be 6 characters!");
             }
 
+            Database::startTransaction();
             // Create Data User
             $user = $this->userRepo->create(new User(null, $request->name, $request->email, $request->username, password_hash($request->password, PASSWORD_BCRYPT), "user.jpg", false, null));
 
@@ -113,9 +115,11 @@ class AuthService {
                 throw new Exception($status);
             }
 
+            Database::commitTransaction();
             // Return Response
             return $user->email;
         } catch(\Exception $e) {
+            Database::rollbackTransaction();
             throw $e;
         }
 
@@ -138,9 +142,13 @@ class AuthService {
                 throw new ValidationException("Username or password invalid!");
             }
 
+            if (!$user->email_verified) {
+                throw new ValidationException("Please verify your email address!");
+            }
+
             // Create session
             $ipAddr = $_SERVER["REMOTE_ADDR"];
-            $userAgent = $_SERVER["USER_AGENT"];
+            $userAgent = $_SERVER["HTTP_USER_AGENT"];
             $session = $this->sessionService->createSession(new CreateSessionRequest($user->id, $ipAddr, $userAgent));
 
             // Create JWT Token
