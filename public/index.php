@@ -10,11 +10,12 @@ use Ewallet\Controller\AuthController;
 use Ewallet\Controller\UserController;
 use Ewallet\Controller\WalletController;
 use Ewallet\Helper\FlashMessage;
+use Ewallet\Middleware\MustLoginMiddleware;
 
 Database::getConnection("mysql", "production");
 Mail::getMailer("production");
 
-Route::get("/", HomeController::class, "index", []);
+Route::get("/", HomeController::class, "index", [MustLoginMiddleware::class]);
 
 // Auth
 Route::get("/users/register", AuthController::class, "registerView", []);
