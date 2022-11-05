@@ -11,6 +11,7 @@ use Ewallet\Controller\UserController;
 use Ewallet\Controller\WalletController;
 use Ewallet\Helper\FlashMessage;
 use Ewallet\Middleware\MustLoginMiddleware;
+use Ewallet\Middleware\MustNotLoginMiddleware;
 
 Database::getConnection("mysql", "production");
 Mail::getMailer("production");
@@ -18,10 +19,10 @@ Mail::getMailer("production");
 Route::get("/", HomeController::class, "index", [MustLoginMiddleware::class]);
 
 // Auth
-Route::get("/users/register", AuthController::class, "registerView", []);
-Route::post("/users/register", AuthController::class, "register", []);
-Route::get("/users/login", AuthController::class, "loginView", []);
-Route::post("/users/login", AuthController::class, "login", []);
+Route::get("/users/register", AuthController::class, "registerView", [MustNotLoginMiddleware::class]);
+Route::post("/users/register", AuthController::class, "register", [MustNotLoginMiddleware::class]);
+Route::get("/users/login", AuthController::class, "loginView", [MustNotLoginMiddleware::class]);
+Route::post("/users/login", AuthController::class, "login", [MustNotLoginMiddleware::class]);
 Route::get("/password/change", AuthController::class, "changePasswordView", []);
 Route::get("/password/forgot", AuthController::class, "forgotPasswordView", []);
 Route::get("/password/reset", AuthController::class, "resetPasswordView", []);
