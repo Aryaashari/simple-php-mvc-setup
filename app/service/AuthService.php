@@ -10,9 +10,11 @@ use Ewallet\Exception\ValidationException;
 use Ewallet\Mail\VerificationMail;
 use Ewallet\Model\Auth\LoginRequest;
 use Ewallet\Model\Auth\LoginResponse;
+use Ewallet\Model\Auth\LogoutRequest;
 use Ewallet\Model\Auth\RegisterRequest;
 use Ewallet\Model\Session\CreateSessionRequest;
 use Ewallet\Repository\EmailVerificationRepository;
+use Ewallet\Repository\SessionRepository;
 use Ewallet\Repository\UserRepository;
 use Ewallet\Repository\WalletRepository;
 use Exception;
@@ -163,6 +165,17 @@ class AuthService {
             throw $e;
         }
 
+    }
+
+
+    public function logout(LogoutRequest $logoutRequest) : void {
+        try {
+            $this->sessionService->deleteSession($logoutRequest->sessionId);
+            unset($_COOKIE["APP_AUTH_SESSION"]);
+            setcookie("APP_AUTH_SESSION", null, -1, "/");
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 
 

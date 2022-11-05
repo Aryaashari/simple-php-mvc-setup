@@ -3,9 +3,11 @@
 namespace Ewallet\Controller;
 
 use Ewallet\App\View;
+use Ewallet\Config\App;
 use Ewallet\Exception\ValidationException;
 use Ewallet\Helper\FlashMessage;
 use Ewallet\Model\Auth\LoginRequest;
+use Ewallet\Model\Auth\LogoutRequest;
 use Ewallet\Model\Auth\RegisterRequest;
 use Ewallet\Repository\EmailVerificationRepository;
 use Ewallet\Repository\SessionRepository;
@@ -14,6 +16,8 @@ use Ewallet\Repository\WalletRepository;
 use Ewallet\Service\AuthService;
 use Ewallet\Service\EmailVerificationService;
 use Ewallet\Service\SessionService;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 class AuthController {
 
@@ -97,6 +101,21 @@ class AuthController {
             FlashMessage::Send("error", $e->getMessage());
             View::redirect("/users/login");
         } catch (\Exception $e) {
+            var_dump("Server Error");
+            exit();
+        }
+    }
+
+    public function logout() : void {
+        try {
+            $jwt = $_COOKIE["APP_AUTH_SESSION"];
+            $decode = JWT::decode($jwt, new Key(App::$appKey, 'HS256'));
+            $logoutReq = new LogoutRequest($decode->session_id);
+            $this->authService->logout($logoutReq);
+
+            FlashMessage::Send('success', 'Logout Successfully');
+            View::redirect("/login");
+        } catch (\Exception) {
             var_dump("Server Error");
             exit();
         }

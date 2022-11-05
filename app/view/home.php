@@ -90,7 +90,7 @@
             <div class="buttonGroup mx-auto my-3">
                 <a href="/users/profile" class="btn btn-light">Profile</a>
                 <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#settingModal">Settings</button>
-                <button class="btn btn-danger">Logout</button>
+                <button class="btn btn-danger" id="logoutBtn" onclick="handleLogout()">Logout</button>
             </div>
 
             <div class="card bg-light text-center p-2 m-5">
@@ -249,6 +249,8 @@
         let btnTransfer = document.getElementById('btnTransfer');
         let btnTopup = document.getElementById('btnTopup');
 
+        let logoutBtn = document.getElementById('logoutBtn');
+
         pinTopup.addEventListener('keyup', function() {
             btnTopup.removeAttribute('disabled');
         });
@@ -317,6 +319,16 @@
             btnTopup.setAttribute('onclick', 'pinSectionTopup()');
             btnTopup.setAttribute('type', 'button');
             btnTopup.setAttribute('disabled', true);
+        }
+
+        function handleLogout() {
+            const xhttp = new XMLHttpRequest();
+            xhttp.onload = function() {
+                window.location.href = "/users/login";
+                swal("Success!", 'Logout Successfully', "success");
+            }
+            xhttp.open("POST", "<?php \Ewallet\Config\App::$baseUrl ?>/users/logout");
+            xhttp.send();
         }
 
     </script>
