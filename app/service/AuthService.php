@@ -95,7 +95,7 @@ class AuthService {
 
             Database::startTransaction();
             // Create Data User
-            $user = $this->userRepo->create(new User(null, $request->name, $request->email, $request->username, password_hash($request->password, PASSWORD_BCRYPT), "user.jpg", false, null));
+            $user = $this->userRepo->create(new User(null, $request->name, $request->email, $request->username, password_hash($request->password, PASSWORD_BCRYPT), "user.png", false, null));
 
             // Create wallet for user
             $wallet = $this->walletRepo->create(new Wallet(null,$user->id, 0, $request->pin));

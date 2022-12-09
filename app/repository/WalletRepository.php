@@ -24,11 +24,11 @@ class WalletRepository {
             $dateNow = date('Y-m-d H:i:s', time());
             $wallet->create_time = $dateNow;
             $wallet->update_time = $dateNow;
+            $id = rand(1,9999999999);
+            $stmt = $this->db->prepare('INSERT INTO wallets(id, user_id, balance, pin, create_time, update_time) VALUES(?,?,?,?,?,?)');
+            $stmt->execute([$id, $wallet->user_id, $wallet->balance, $wallet->pin, $wallet->create_time, $wallet->update_time]);
 
-            $stmt = $this->db->prepare('INSERT INTO wallets(user_id, balance, pin, create_time, update_time) VALUES(?,?,?,?,?)');
-            $stmt->execute([$wallet->user_id, $wallet->balance, $wallet->pin, $wallet->create_time, $wallet->update_time]);
-
-            $wallet->id = $this->db->lastInsertId();
+            $wallet->id = $id;
             return $wallet;
 
         } catch(\Exception $e) {
