@@ -85,7 +85,7 @@
 
         <div class="profile-section card bg-primary mt-3">
             <img src="assets/img/arya.jpg" class="img-avatar" alt="profile-photo">
-            <p class="name text-center fw-bold fs-3 text-white  lh-1">Arya Dul Fitra Ashari</p>
+            <p class="name text-center fw-bold fs-3 text-white  lh-1"><?= $data["fullname"] ?></p>
             <p class="accountNumber text-center text-white lh-1">12345678</p>
             <div class="buttonGroup mx-auto my-3">
                 <a href="/users/profile" class="btn btn-light">Profile</a>
