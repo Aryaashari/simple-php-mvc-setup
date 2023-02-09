@@ -33,5 +33,16 @@ class WalletRepoTest extends TestCase {
 
     }
 
+    public function testfindByUserId() : void {
+        $user = $this->userRepo->create(new User(null, "Arya", "aryaashari100@gmail.com", "arya", "12345678", "arya.jpg", false, null));
+        $this->walletRepo->create(new Wallet(null, $user->id, 0, 123456));
+        $wallet = $this->walletRepo->findByUserId($user->id);
+        var_dump($user);
+        var_dump($wallet);
+
+        $this->assertIsObject($user);
+        $this->assertIsObject($wallet);
+    }
+
 
 }

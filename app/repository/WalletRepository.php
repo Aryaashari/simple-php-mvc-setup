@@ -16,6 +16,21 @@ class WalletRepository {
         $this->db = Database::getConnection();
     }
 
+    public function findByUserId(int $userId) : Wallet | null {
+        try {
+
+            $stmt = $this->db->prepare('SELECT * FROM wallets WHERE user_id=?');
+            $stmt->execute([$userId]);
+            
+            if ($wallet = $stmt->fetch()) {
+                return new Wallet($wallet["id"], $wallet["user_id"], $wallet["balance"], $wallet["pin"], $wallet["create_time"], $wallet["update_time"]);
+            }
+    
+            return null;
+        } catch(\Exception $e) {
+            throw $e;
+        }
+    }
 
     public function create(Wallet $wallet) : Wallet {
 
