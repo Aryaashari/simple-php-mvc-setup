@@ -16,14 +16,30 @@ class WalletRepository {
         $this->db = Database::getConnection();
     }
 
-    public function findByUserId(int $userId) : Wallet | null {
+    public function findByUsername(string $username) : Wallet | null {
         try {
 
-            $stmt = $this->db->prepare('SELECT * FROM wallets WHERE user_id=?');
-            $stmt->execute([$userId]);
+            $stmt = $this->db->prepare('SELECT * FROM wallets WHERE username=?');
+            $stmt->execute([$username]);
             
             if ($wallet = $stmt->fetch()) {
-                return new Wallet($wallet["id"], $wallet["user_id"], $wallet["balance"], $wallet["pin"], $wallet["create_time"], $wallet["update_time"]);
+                return new Wallet($wallet["account_number"], $wallet["username"], $wallet["balance"], $wallet["pin"], $wallet["create_time"], $wallet["update_time"]);
+            }
+    
+            return null;
+        } catch(\Exception $e) {
+            throw $e;
+        }
+    }
+
+    public function findByAccountNumber(int $account_number) : Wallet | null {
+        try {
+
+            $stmt = $this->db->prepare('SELECT * FROM wallets WHERE account_number=?');
+            $stmt->execute([$account_number]);
+            
+            if ($wallet = $stmt->fetch()) {
+                return new Wallet($wallet["account_number"], $wallet["username"], $wallet["balance"], $wallet["pin"], $wallet["create_time"], $wallet["update_time"]);
             }
     
             return null;
@@ -39,17 +55,32 @@ class WalletRepository {
             $dateNow = date('Y-m-d H:i:s', time());
             $wallet->create_time = $dateNow;
             $wallet->update_time = $dateNow;
-            $id = rand(1,9999999999);
-            $stmt = $this->db->prepare('INSERT INTO wallets(id, user_id, balance, pin, create_time, update_time) VALUES(?,?,?,?,?,?)');
-            $stmt->execute([$id, $wallet->user_id, $wallet->balance, $wallet->pin, $wallet->create_time, $wallet->update_time]);
+            $account_number = rand(1,9999999999);
+            $stmt = $this->db->prepare('INSERT INTO wallets(account_number, username, balance, pin, create_time, update_time) VALUES(?,?,?,?,?,?)');
+            $stmt->execute([$account_number, $wallet->username, $wallet->balance, $wallet->pin, $wallet->create_time, $wallet->update_time]);
 
-            $wallet->id = $id;
+            $wallet->account_number = $account_number;
             return $wallet;
 
         } catch(\Exception $e) {
             throw $e;
         }
 
+    }
+
+    public function update(Wallet $wallet) : Wallet {
+        try {
+
+            $dateNow = date('Y-m-d H:i:s', time());
+            $stmt = $this->db->prepare('UPDATE wallets SET account_number=?, username=?, balance=?, pin=?, create_time=?, update_time=? WHERE account_number=?');
+            $stmt->execute([$wallet->account_number, $wallet->username, $wallet->balance, $wallet->pin, $wallet->create_time, $dateNow, $wallet->account_number]);
+
+            $wallet->update_time = $dateNow;
+
+            return $wallet;
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 
 

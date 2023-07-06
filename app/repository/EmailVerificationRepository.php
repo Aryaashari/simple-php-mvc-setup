@@ -3,6 +3,7 @@
 namespace Ewallet\Repository;
 
 use Ewallet\Config\Database;
+use Ewallet\Domain\EmailVerification;
 
 class EmailVerificationRepository {
 
@@ -15,12 +16,30 @@ class EmailVerificationRepository {
     }
 
 
-    public function findByUserId(int $userId) : ?string {
+    public function findByUsername(string $username, string $type) : array {
         try {
-            $stmt = $this->db->prepare('SELECT user_id,token FROM email_verifications WHERE user_id=?');
-            $stmt->execute([$userId]);
+            $stmt = $this->db->prepare('SELECT id,username,token, email_type, is_used, expire_time, create_time FROM email_verifications WHERE username=? AND email_type=? AND is_used=false');
+            $stmt->execute([$username, $type]);
+
+            $emails = [];
+            while ($data = $stmt->fetch()) {
+                $data = new EmailVerification($data["id"], $data["username"], $data["token"], $data["email_type"], $data["expire_time"], $data["create_time"], $data["is_used"]);
+                $emails[] = $data;
+            }
+
+            return $emails;
+        } catch(\Exception $e) {
+            throw $e;
+        }
+    }
+
+    public function findByToken(string $token,  $type) : ?EmailVerification {
+        try {
+            $stmt = $this->db->prepare('SELECT id,username,token, email_type, is_used, expire_time, create_time FROM email_verifications WHERE token=? AND email_type=? AND is_used=false');
+            $stmt->execute([$token, $type]);
+
             if ($data = $stmt->fetch()) {
-                return $data["token"];
+                return new EmailVerification($data["id"], $data["username"], $data["token"], $data["email_type"], $data["expire_time"], $data["create_time"], $data["is_used"]);
             }
 
             return null;
@@ -30,25 +49,27 @@ class EmailVerificationRepository {
     }
 
 
-    public function deleteByUserId(int $userId) :void {
+    public function deleteByUsername(string $username) :void {
         try {
-            $stmt = $this->db->prepare("DELETE FROM email_verifications WHERE user_id=?");
-            $stmt->execute([$userId]);
+            $stmt = $this->db->prepare("DELETE FROM email_verifications WHERE username=?");
+            $stmt->execute([$username]);
         } catch(\Exception $e) {
             throw $e;
         }
     }
 
 
-    public function create(int $userId) :string {
+    public function create(string $username, string $type) :string {
 
         try {
 
-            $token = time() . $userId;
+            $token = time() . $username;
             $token = password_hash($token, PASSWORD_BCRYPT);
 
-            $stmt = $this->db->prepare('INSERT INTO email_verifications(user_id,token,create_time) VALUES (?,?,?)');
-            $stmt->execute([$userId, $token, date('Y-m-d H:i:s', time())]);
+            $dateNow = date('Y-m-d H:i:s', time());
+            $expire = date('Y-m-d H:i:s', time() + (60*60));
+            $stmt = $this->db->prepare('INSERT INTO email_verifications(username,token,email_type,is_used,expire_time,create_time) VALUES (?,?,?,?,?,?)');
+            $stmt->execute([$username, $token, $type, false, $expire, $dateNow]);
 
             return $token;
 
@@ -56,6 +77,17 @@ class EmailVerificationRepository {
             throw $e;
         }
 
+    }
+
+    public function update(string $token) : void {
+        try {
+
+            $stmt = $this->db->prepare("UPDATE email_verifications SET is_used=true WHERE token=?");
+            $stmt->execute([$token]);
+
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 
 

@@ -32,7 +32,7 @@
                 <div class="card-title text-center fw-bold">
                     <h1 class="fs-2">CHANGE PIN</h1>
                 </div>
-                <form action="#">
+                <form action="/users/wallet/pin/change" method="post">
 
                     <div class="mb-3">
                         <label for="oldPin" class="form-label">Old PIN</label>

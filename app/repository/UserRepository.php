@@ -21,7 +21,7 @@ class UserRepository {
             $stmt->execute([$email]);
 
             if($user = $stmt->fetch()) {
-                return new User($user["id"], $user["name"], $user["email"], $user["username"], $user["password"], $user["profile_photo"], $user["email_verified"], $user["email_verified_time"], $user["create_time"], $user["update_time"]);
+                return new User($user["username"], $user["name"], $user["email"], $user["password"], $user["profile_photo"], $user["email_verified"], $user["email_verified_time"], $user["create_time"], $user["update_time"]);
             }
 
             return null;
@@ -40,7 +40,7 @@ class UserRepository {
             $stmt->execute([$username]);
     
             if($user = $stmt->fetch()) {
-                return new User($user["id"], $user["name"], $user["email"], $user["username"], $user["password"], $user["profile_photo"], $user["email_verified"], $user["email_verified_time"], $user["create_time"], $user["update_time"]);
+                return new User($user["name"], $user["email"], $user["username"], $user["password"], $user["profile_photo"], $user["email_verified"], $user["email_verified_time"], $user["create_time"], $user["update_time"]);
             }
     
             return null;
@@ -61,8 +61,6 @@ class UserRepository {
             $stmt = $this->db->prepare('INSERT INTO users(name,email,username,password,profile_photo,email_verified,email_verified_time,create_time, update_time) VALUES (?,?,?,?,?,?,?,?,?)');
             $stmt->execute([$user->name, $user->email, $user->username, $user->password, $user->profile_photo, $user->email_verified, $user->email_verified_time, $user->create_time, $user->update_time]);
     
-            $user->id = $this->db->lastInsertId();
-    
             return $user;
         } catch(\Exception $e) {
             throw $e;
@@ -70,11 +68,26 @@ class UserRepository {
 
     }
 
-    public function updateEmailVerification(int $userId) {
+    public function updateEmailVerification(string $username) {
         try {
             $dateNow = date("Y-m-d H:i:s", time());
-            $stmt = $this->db->prepare('UPDATE users SET email_verified=true, email_verified_time=? WHERE id=?');
-            $stmt->execute([$dateNow, $userId]);
+            $stmt = $this->db->prepare('UPDATE users SET email_verified=true, email_verified_time=? WHERE username=?');
+            $stmt->execute([$dateNow, $username]);
+        } catch(\Exception $e) {
+            throw $e;
+        }
+    }
+
+
+    public function update(User $user, string $username) : User {
+
+        try {
+            $dateNow = date('Y-m-d H:i:s', time());
+            $stmt = $this->db->prepare("UPDATE users SET username=?, name=?, password=?, profile_photo=?, update_time=? WHERE username=?");
+            $stmt->execute([$user->username, $user->name, $user->password, $user->profile_photo, $dateNow, $username]);
+            
+            $user->update_time = $dateNow;
+            return $user;
         } catch(\Exception $e) {
             throw $e;
         }

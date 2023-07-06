@@ -32,7 +32,7 @@
                 <div class="card-title text-center fw-bold">
                     <h1 class="fs-2">CHANGE PASSWORD</h1>
                 </div>
-                <form action="#">
+                <form action="/password/change" method="post">
 
                     <div class="mb-3">
                         <label for="oldPassword" class="form-label">Old Password</label>

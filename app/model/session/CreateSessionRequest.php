@@ -4,12 +4,12 @@ namespace Ewallet\Model\Session;
 
 class CreateSessionRequest {
 
-    public int $userId;
+    public string $username;
     public string $ipAddress, $userAgent;
 
-    public function __construct(int $userId, string $ipAddress, string $userAgent)
+    public function __construct(string $username, string $ipAddress, string $userAgent)
     {
-        $this->userId = $userId;
+        $this->username = $username;
         $this->ipAddress = $ipAddress;
         $this->userAgent = $userAgent;
     }

@@ -34,7 +34,7 @@ class SessionService {
 
     public function createSession(CreateSessionRequest $request) : CreateSessionResponse {
         try {
-            $session = $this->sessionRepo->create($request->userId, $request->ipAddress, $request->userAgent);
+            $session = $this->sessionRepo->create($request->username, $request->ipAddress, $request->userAgent);
             return new CreateSessionResponse($session->id);
         } catch(\Exception $e) {
             throw $e;
@@ -46,7 +46,7 @@ class SessionService {
             $session = $this->sessionRepo->findById($sessionId);
             if ($session != null) {
                 $timeNow = time();
-                $session->last_activated_time = date("Y-m-d H:i:s", $timeNow);
+                $session->last_activated_at = date("Y-m-d H:i:s", $timeNow);
                 $session->expire_time = date("Y-m-d H:i:s", $timeNow + 120);
                 $this->sessionRepo->update($session);
                 return;

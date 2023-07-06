@@ -1,3 +1,7 @@
+<?php 
+use Ewallet\Config\App;
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -63,10 +67,10 @@
                 <div class="card-title text-center fw-bold">
                     <h1 class="fs-3">PROFILE</h1>
                 </div>
-                <form action="#">
+                <form action="/users/profile" method="POST" enctype="multipart/form-data">
 
                     <div class="box-avatar">
-                        <img src="../assets/img/arya.jpg" id="imgAvatar" class="img-avatar" alt="profile-photo">
+                        <img src="<?= App::$baseUrl ?>/assets/img/profile/<?= $data["photo"] ?>" id="imgAvatar" class="img-avatar" alt="profile-photo">
                         <label for="photoProfile" class="btn">
                             <img src="../assets/img/pen.png" class="pen-icon" alt="pen-icon">
                         </label>
@@ -75,17 +79,17 @@
 
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" name="name" id="name" value="Arya Dul Fitra Ashari">
+                        <input type="text" class="form-control" name="name" id="name" value="<?= $data["fullName"] ?>">
                     </div>
 
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" disabled name="email" id="email" value="aryaashari@gmail.com">
+                        <input type="email" class="form-control" disabled name="email" id="email" value="<?= $data["email"] ?>">
                     </div>
 
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
-                        <input type="text" class="form-control" name="username" id="username" value="aryaashari">
+                        <input type="text" class="form-control" name="username" id="username" value="<?= $data["username"] ?>">
                     </div>
 
                     <button class="mb-3 btn btn-primary w-100" id="saveBtn" type="submit" disabled>Save</button>

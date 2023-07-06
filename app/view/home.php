@@ -90,7 +90,7 @@ use Ewallet\Config\App;
         <div class="profile-section card bg-primary mt-3">
             <img src="<?= App::$baseUrl ?>/assets/img/profile/<?= $data["photo"] ?>" class="img-avatar" alt="profile-photo">
             <p class="name text-center fw-bold fs-3 text-white  lh-1"><?= $data["fullname"] ?></p>
-            <p class="accountNumber text-center text-white lh-1">12345678</p>
+            <p class="accountNumber text-center text-white lh-1"><?= $data["accountNumber"] ?></p>
             <div class="buttonGroup mx-auto my-3">
                 <a href="/users/profile" class="btn btn-light">Profile</a>
                 <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#settingModal">Settings</button>
@@ -99,7 +99,7 @@ use Ewallet\Config\App;
 
             <div class="card bg-light text-center p-2 m-5">
                 <p class="balance-text fw-normal fs-4 lh-1">Balance</p>
-                <p class="balance-number fw-bold fs-2 lh-1">IDR 5.000.000</p>
+                <p class="balance-number fw-bold fs-2 lh-1">IDR <?= $data["balance"] ?></p>
                 <div class="features d-flex justify-content-center">
                     <div class="topup" data-bs-toggle="modal" data-bs-target="#topupModal">
                         <img src="assets/img/topup.png" class="icon" alt="topup-icon">
@@ -117,30 +117,48 @@ use Ewallet\Config\App;
             <p class="text-center fw-bold">Don't have any history</p>
 
             <h3 class="text-center fw-bold">Histories</h3>
-            <div class="histories">
-                <h5 class="month mb-4 mt-4">Agustus 2022</h5>
-                <div class="history d-flex align-items-center justify-content-between mb-2">
-                    <div class="left d-flex align-items-center">
-                        <img src="assets/img/topup.png" class="icon" alt="topup-icon">
-                        <div class="history-text">
-                            <p class="history-name mb-0">To Up to wallet</p>
-                            <div class="history-note d-flex">
-                                <img src="assets/img/plus.png" alt="plus-icon" class="icon">
-                                <p class="history-nominal plus mb-0">IDR 10.000</p>
+
+            <?php if (count($data["histories"]) == 0) : ?>
+                <h5 class="text-center mt-5">History kosong</h5>
+            <?php else : ?>
+
+                <?php foreach($data["histories"] as $history) : ?>
+                    <?php $date = DateTime::createFromFormat("Y-m-d H:i:s", $history->create_time) ?>
+                    <div class="histories">
+                        <h5 class="month mb-4 mt-4"><?= $date->format('F Y') ?></h5>
+                        <div class="history d-flex align-items-center justify-content-between mb-2">
+                            <div class="left d-flex align-items-center">
+                                <?php if ($history->history_type == "topup") : ?>
+                                    <img src="assets/img/topup.png" class="icon" alt="topup-icon">
+                                <?php else : ?>
+                                    <img src="assets/img/transfer.png" class="icon" alt="transfer-icon">
+                                <?php endif; ?>
+                                <div class="history-text">
+                                    <p class="history-name mb-0"><?=  $history->history_name ?></p>
+                                    <div class="history-note d-flex">
+                                        <?php if ($history->history_category == "in") : ?>
+                                            <img src="assets/img/plus.png" alt="plus-icon" class="icon">
+                                            <p class="history-nominal plus mb-0">IDR <?= $history->nominal ?></p>
+                                        <?php else : ?>
+                                            <img src="assets/img/minus.png" alt="minus-icon" class="icon">
+                                            <p class="history-nominal minus mb-0">IDR <?= $history->nominal ?></p>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="right">
+                                <div class="history-date">
+                                    <p class="date mb-0 text-end"><?= $date->format('d F Y') ?></p>
+                                    <p class="time mb-0 text-end"><?= $date->format('H:i:s') ?></p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="right">
-                        <div class="history-date">
-                            <p class="date mb-0 text-end">30 Agustus 2022</p>
-                            <p class="time mb-0 text-end">16:00</p>
-                        </div>
-                    </div>
-                </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
 
-                
-            </div>
+            
         </div>
 
     </div>
@@ -155,7 +173,7 @@ use Ewallet\Config\App;
                     <h5 class="modal-title" id="topupModalLabel">Top Up</h5>
                     <button type="button" class="btn-close" onclick="resetModalData()" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="#" id="formTopup">
+                <form action="/users/wallet/topup" id="formTopup" method="post">
                     <div class="modal-body">
 
                         <input type="text" name="nominal" class="form-control" id="topupNominal" placeholder="Min IDR 10.000" autocomplete="off">
@@ -181,7 +199,7 @@ use Ewallet\Config\App;
                     <h5 class="modal-title" id="transferModalLabel">Transfer</h5>
                     <button type="button" class="btn-close" onclick="resetModalData()" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="#" id="formTransfer">
+                <form action="/users/wallet/transfer" method="post" id="formTransfer">
                     <div class="modal-body">
 
                         <input type="text" name="accountNumber" class="form-control mb-3" id="accountNumber" placeholder="Account Number"autocomplete="off">

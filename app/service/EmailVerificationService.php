@@ -2,6 +2,8 @@
 
 namespace Ewallet\Service;
 
+use Ewallet\Config\Database;
+use Ewallet\Exception\ValidationException;
 use Ewallet\Repository\EmailVerificationRepository;
 use Ewallet\Repository\UserRepository;
 
@@ -18,24 +20,40 @@ class EmailVerificationService {
     }
 
 
-    public function isValidToken(int $userId, string $token) : bool {
+    public function isValidToken(string $username, string $token, string $type) : bool {
 
         try {
-            $tokenUser = $this->emailVerificationRepo->findByUserId($userId);
-            if (!is_null($tokenUser)) {
-                if ($tokenUser === $token) {
-                    // Ubah email verification status di user
-                    $this->userRepo->updateEmailVerification($userId);
-                    
-                    // Delete token email verification dari user
-                    $this->emailVerificationRepo->deleteByUserId($userId);
+            Database::startTransaction();
+            $response = $this->emailVerificationRepo->findByToken($token, $type);
+            if ($response != null) {
 
-                    return true;
+                if ($response->username == $username) {
+    
+                    if (strtotime($response->expire_time) >= time()) {
+
+                        // Ubah email verification status di user
+                        $this->userRepo->updateEmailVerification($username);
+                        
+                        // Delete token email verification dari user
+                        $this->emailVerificationRepo->update($token);
+                        
+                        Database::commitTransaction();
+                        return true;    
+
+                    } else {
+                        throw new ValidationException("Token was expired!");
+                    }
+
+                } else {
+                    throw new ValidationException("Username invalid!");
                 }
-            }
 
-            return false;
+            }   
+
+            Database::rollbackTransaction();
+            throw new ValidationException("Token invalid!");
         } catch(\Exception $e) {
+            Database::rollbackTransaction();
             throw $e;
         }
 

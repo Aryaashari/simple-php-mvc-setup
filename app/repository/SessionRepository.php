@@ -17,10 +17,10 @@ class SessionRepository {
 
     public function findById(int $id) : ?Session {
         try {
-            $stmt = $this->db->prepare("SELECT id,user_id, ip_address, user_agent, last_activated_time, expire_time, create_time FROM sessions WHERE id=?");
+            $stmt = $this->db->prepare("SELECT id,username, ip_address, user_agent, last_activated_at, expire_time, create_time FROM sessions WHERE id=?");
             $stmt->execute([$id]);
             if ($session = $stmt->fetch()) {
-                return new Session($session["id"], $session["user_id"], $session["ip_address"], $session["user_agent"], $session["last_activated_time"], $session["expire_time"], $session["create_time"]);
+                return new Session($session["id"], $session["username"], $session["ip_address"], $session["user_agent"], $session["last_activated_at"], $session["expire_time"], $session["create_time"]);
             }
             return null;
         } catch(\Exception $e) {
@@ -28,15 +28,15 @@ class SessionRepository {
         }
     }
 
-    public function create(int $userId, string $ipAddress, string $userAgent) : Session {
+    public function create(string $username, string $ipAddress, string $userAgent) : Session {
         try {
             $dateNow = date("Y-m-d H:i:s", time());
             $expire = date("Y-m-d H:i:s", time()+120);
             $id = rand(100,9999) + time();
-            $stmt = $this->db->prepare("INSERT INTO sessions(id,user_id, ip_address, user_agent, last_activated_time, expire_time, create_time) VALUES(?,?,?,?,?,?,?)");
-            $stmt->execute([$id,$userId, $ipAddress, $userAgent, $dateNow,$expire,$dateNow]);
+            $stmt = $this->db->prepare("INSERT INTO sessions(id, username, ip_address, user_agent, last_activated_at, expire_time, create_time) VALUES(?,?,?,?,?,?,?)");
+            $stmt->execute([$id,$username, $ipAddress, $userAgent, $dateNow,$expire,$dateNow]);
 
-            return new Session($id, $userId, $ipAddress, $userAgent, $dateNow, $expire, $dateNow);
+            return new Session($id, $username, $ipAddress, $userAgent, $dateNow, $expire, $dateNow);
         } catch(\Exception $e) {
             throw $e;
         }
@@ -45,8 +45,8 @@ class SessionRepository {
 
     public function update(Session $session) : Session {
         try {
-            $stmt = $this->db->prepare("UPDATE sessions SET last_activated_time = ?, expire_time = ? WHERE id=?");
-            $stmt->execute([$session->last_activated_time, $session->expire_time, $session->id]);
+            $stmt = $this->db->prepare("UPDATE sessions SET last_activated_at = ?, expire_time = ? WHERE id=?");
+            $stmt->execute([$session->last_activated_at, $session->expire_time, $session->id]);
             return $session;
         } catch(\Exception $e) {
             throw $e;

@@ -55,18 +55,20 @@ class AuthController {
             View::redirect('/users/register');
         } catch(\Exception $e) {
             var_dump("Error 500");
+            var_dump($e);
             exit();
         }
 
     }
 
     public function emailVerification() : void {
-        $userId = htmlspecialchars(trim($_GET["user_id"] ?? ""));
+        $username = htmlspecialchars(trim($_GET["username"] ?? ""));
         $token = htmlspecialchars(trim($_GET["token"] ?? ""));
+        $type = htmlspecialchars(trim($_GET["type"] ?? ""));
 
         try {
-            if ($userId != "" && $token != "") {
-                $response = $this->emailVerificationService->isValidToken($userId, $token);
+            if ($username != "" && $token != "") {
+                $response = $this->emailVerificationService->isValidToken($username, $token, $type);
     
                 if ($response == true) {
                     FlashMessage::Send('success', 'Success verification email!');
@@ -95,13 +97,14 @@ class AuthController {
         try {
             $response = $this->authService->login($request);
             setcookie("APP_AUTH_SESSION", $response->jwt, 0, "/");
-            FlashMessage::Send("success", "Login Successfully");
             View::redirect("/");
+            FlashMessage::Send("success", "Login Successfully");
         } catch (ValidationException $e) {
             FlashMessage::Send("error", $e->getMessage());
             View::redirect("/users/login");
         } catch (\Exception $e) {
             var_dump("Server Error");
+            var_dump($e);
             exit();
         }
     }
@@ -119,18 +122,6 @@ class AuthController {
             var_dump("Server Error");
             exit();
         }
-    }
-
-    public function changePasswordView() : void {
-        View::render('/../view/auth/change-password.php');
-    }
-
-    public function forgotPasswordView() : void {
-        View::render('/../view/auth/forgot-password.php');
-    }
-
-    public function resetPasswordView() : void {
-        View::render('/../view/auth/reset-password.php');
     }
 
 }

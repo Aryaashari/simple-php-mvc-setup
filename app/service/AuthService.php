@@ -37,6 +37,7 @@ class AuthService {
     public function register(RegisterRequest $request) : string {
 
         try {
+            Database::startTransaction();
             // Validasi request
             if($request->name == "") {
                 throw new ValidationException("Name is required!");
@@ -93,18 +94,17 @@ class AuthService {
                 throw new ValidationException("PIN Number must be 6 characters!");
             }
 
-            Database::startTransaction();
             // Create Data User
-            $user = $this->userRepo->create(new User(null, $request->name, $request->email, $request->username, password_hash($request->password, PASSWORD_BCRYPT), "user.png", false, null));
+            $user = $this->userRepo->create(new User($request->name, $request->email, $request->username, password_hash($request->password, PASSWORD_BCRYPT), "user.png", false, null));
 
             // Create wallet for user
-            $wallet = $this->walletRepo->create(new Wallet(null,$user->id, 0, $request->pin));
+            $wallet = $this->walletRepo->create(new Wallet(null,$user->username, 0, $request->pin));
 
             // Create email verification token
-            $token = $this->emailVerificationRepo->create($user->id);
+            $token = $this->emailVerificationRepo->create($user->username, "register");
 
             // Create url for email verification
-            $url = App::$baseUrl."/users/email/verification?user_id=$user->id&token=$token";
+            $url = App::$baseUrl."/users/email/verification?username=$user->username&token=$token&type=register";
 
             // Send verification link to user's email
             $mail = new VerificationMail;
@@ -120,7 +120,7 @@ class AuthService {
             Database::commitTransaction();
             // Return Response
             return $user->email;
-        } catch(\Exception $e) {
+        } catch(Exception $e) {
             Database::rollbackTransaction();
             throw $e;
         }
@@ -151,7 +151,7 @@ class AuthService {
             // Create session
             $ipAddr = $_SERVER["REMOTE_ADDR"];
             $userAgent = $_SERVER["HTTP_USER_AGENT"];
-            $session = $this->sessionService->createSession(new CreateSessionRequest($user->id, $ipAddr, $userAgent));
+            $session = $this->sessionService->createSession(new CreateSessionRequest($user->username, $ipAddr, $userAgent));
 
             // Create JWT Token
             $payload = [
@@ -161,7 +161,7 @@ class AuthService {
 
             $jwt = JWT::encode($payload, App::$appKey, 'HS256');
             return new LoginResponse($jwt);
-        } catch(\Exception $e) {
+        } catch(Exception $e) {
             throw $e;
         }
 
@@ -173,7 +173,7 @@ class AuthService {
             $this->sessionService->deleteSession($logoutRequest->sessionId);
             unset($_COOKIE["APP_AUTH_SESSION"]);
             setcookie("APP_AUTH_SESSION", null, -1, "/");
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw $e;
         }
     }
