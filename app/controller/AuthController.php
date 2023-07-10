@@ -71,8 +71,12 @@ class AuthController {
                 $response = $this->emailVerificationService->isValidToken($username, $token, $type);
     
                 if ($response == true) {
-                    FlashMessage::Send('success', 'Success verification email!');
-                    View::redirect("/users/login");
+                    if ($type == "register") {
+                        FlashMessage::Send('success', 'Success verification email!');
+                        View::redirect("/users/login");
+                    } else {
+                        View::redirect("/password/reset");
+                    }
                 }
             }
     

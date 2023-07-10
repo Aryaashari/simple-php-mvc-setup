@@ -34,6 +34,9 @@ Route::get("/password/change", UserController::class, "changePasswordView", [Mus
 Route::post("/password/change", UserController::class, "changePassword", [MustLoginMiddleware::class]);
 
 Route::get("/password/forgot", UserController::class, "forgotPasswordView", []);
+Route::post("/password/forgot", UserController::class, "forgotPassword", []);
+Route::get("/users/password/reset/email/verification", AuthController::class, "emailVerification", []);
+
 Route::get("/password/reset", UserController::class, "resetPasswordView", []);
 
 

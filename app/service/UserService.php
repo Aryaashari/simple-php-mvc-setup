@@ -3,10 +3,13 @@
 namespace Ewallet\Service;
 
 use Ewallet\Config\App;
+use Ewallet\Config\Database;
 use Ewallet\Domain\User;
 use Ewallet\Exception\ValidationException;
+use Ewallet\Mail\VerificationMail;
 use Ewallet\Model\User\UpdatePasswordRequest;
 use Ewallet\Model\User\UpdateUserRequest;
+use Ewallet\Repository\EmailVerificationRepository;
 use Ewallet\Repository\UserRepository;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -14,9 +17,11 @@ use Firebase\JWT\Key;
 class UserService {
 
     private UserRepository $userRepo;
+    private EmailVerificationRepository $emailVerificationRepo;
 
-    public function __construct(UserRepository $userRepo) {
+    public function __construct(UserRepository $userRepo, EmailVerificationRepository $emailVerificationRepo) {
         $this->userRepo = $userRepo;
+        $this->emailVerificationRepo = $emailVerificationRepo;
     }
 
     public function getByUsername(string $username) : ?User {
@@ -137,6 +142,41 @@ class UserService {
         } catch (\Exception $e) {
             throw $e;
         }
+    }
+
+
+    public function forgotPassword(string $email) : void {
+        Database::startTransaction();
+
+        $user = $this->userRepo->findByEmail($email);
+        // validasi email
+        if($email == "") {
+            throw new ValidationException("Email is required!");
+        } else if(!preg_match('/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/', $email)) {
+            throw new ValidationException("Email must be type of email!");
+        } else if($user == null) {
+            throw new ValidationException("Email not exist!");
+        }
+        
+        // create email verification
+        $token = $this->emailVerificationRepo->create($user->username, "reset_password");
+
+        // Create url for email verification
+        $url = App::$baseUrl."/users/password/reset/email/verification?username=$user->username&token=$token&type=reset_password";
+
+        // Send verification link to user's email
+        $mail = new VerificationMail;
+        $mail->recipients = [$user->email => $user->name];
+        $mail->from["address"] = "aryaashari100@gmail.com";
+        $mail->from["name"] = "Admin";
+        $mail->view("mail/verification.html", ["link" => $url]);
+        $status = $mail->build("Email Verification");
+        if($status != true) {
+            throw new \Exception($status);
+        }
+
+        Database::commitTransaction();
+
     }
 
 }

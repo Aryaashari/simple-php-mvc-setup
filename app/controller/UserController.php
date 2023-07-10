@@ -8,6 +8,7 @@ use Ewallet\Helper\Auth;
 use Ewallet\Helper\FlashMessage;
 use Ewallet\Model\User\UpdatePasswordRequest;
 use Ewallet\Model\User\UpdateUserRequest;
+use Ewallet\Repository\EmailVerificationRepository;
 use Ewallet\Repository\UserRepository;
 use Ewallet\Service\UserService;
 
@@ -16,7 +17,7 @@ class UserController {
     private UserService $userService;
 
     public function __construct(){
-        $this->userService = new UserService(new UserRepository);
+        $this->userService = new UserService(new UserRepository, new EmailVerificationRepository);
     }
 
     public function profile() {
@@ -98,6 +99,12 @@ class UserController {
 
     public function forgotPasswordView() : void {
         View::render('/../view/user/forgot-password.php');
+    }
+
+    public function forgotPassword() : void {
+        $email = trim($_POST["email"]) ?? "";
+
+
     }
 
     public function resetPasswordView() : void {

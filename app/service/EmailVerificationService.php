@@ -31,10 +31,17 @@ class EmailVerificationService {
     
                     if (strtotime($response->expire_time) >= time()) {
 
-                        // Ubah email verification status di user
-                        $this->userRepo->updateEmailVerification($username);
+                        if ($type == "register") {
+                            // Ubah email verification status di user
+                            $this->userRepo->updateEmailVerification($username);
+                        } else if ($type == "reset_password") {
+                            // Tambah cookie untuk reset password
+                            setcookie("RESET_PASSWORD", $token, 0, "/password/reset");
+                        } else {
+                            throw new ValidationException("Email type invalid!");
+                        }
                         
-                        // Delete token email verification dari user
+                        // Update token email verification dari user
                         $this->emailVerificationRepo->update($token);
                         
                         Database::commitTransaction();
